@@ -31,14 +31,14 @@ First let's give a convincing argument that the agent in a finite girdworld will
 
 \textbf{Claim 1:} If there are no blocked cells separating the agent and the target in a finite gridworld, then the agent is guaranteed to reach the target.
 
-\textbf{Proof:} Let $P$ be the set of all possible paths between the agent and the target. Since there are no blocked cells, $P$ is non-empty. As the gridworld is finite, $P$ is also finite. Therefore, the agent can explore each path in $P$ one by one, ensuring it reaches the target or determines impossibility in finite time.
+\textbf{Proof:} Let $P$ be the set of all possible paths between the agent and the target. Since there are no blocked cells that barr agent from reachign target, $P$ is non-empty since there has to exist at least one path. As the gridworld is finite, $P$ is also finite. Therefore, the agent can explore each path in $P$ one by one, ensuring it reaches the target or determines impossibility in finite time.
 \\
 \\
 Now, we prove that an agent in a finite world will discover that it will not reach the given target in finite time given that there is no path from the agent to the target.
 
 \textbf{Claim 2:} The exploration process of the agent in a finite gridworld either reaches the target or discovers impossibility in finite time.
 
-\textbf{Proof:} Since there is a finite number of paths to explore in the gridworld, the agent can explore each path one by one. In the worst case, it explores all possible paths, guaranteeing that the exploration process finishes in finite time. A* algorithm in this exploration, which uses manhattan distances as the heuristic (which is also a consistent heuristic), also maintains a closed list. Having a closed list ensures that A* does not revisit any new nodes or any new paths that have already been seen. Basically ensuring that no loop will occur.
+\textbf{Proof:} Since there is a finite number of paths to explore in the gridworld, the agent can explore each path one by one. In the worst case, it explores all possible paths, guaranteeing that the exploration process finishes in finite time. A* algorithm in this exploration, which uses manhattan distances as the heuristic (which is also a consistent heuristic), also maintains a closed list. Having a closed list ensures that A* does not revisit any new nodes or any new paths that have already been seen. Basically ensuring that no loop will occur. 
 \\
 \\
 Now we prove that the number of max moves is less than the number of unblocked cells squared. 
