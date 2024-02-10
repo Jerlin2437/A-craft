@@ -15,10 +15,15 @@ To preface, we have decided to use DFS as our main method to generate our maze. 
 \section{Question 1}
 Here, we will explore a bit about the A star algorithm.
 
-\subsection{Part A}
-A subsection within Section 2.
+\paragraph{Part A}
 
-\subsection{Part B}
+We want to explore the reasoning of why A* moves east instead of north in Figure 8 of the Homework 1 writeup.
+
+First, we want to recognize that the algorithm does not know which nodes are blocked and which are unblocked. Only neighbouring nodes are visible (immediate north, south, west, east nodes). In figure 8, there are 3 possible nodes that can be traversed at the start, each of which is unblocked. They are: \((E, 1)\), \((E, 3)\), \((D, 2)\) The heuristic \(h(n)\) that will be used will be Manhattan distances. \(g(n)\) will simply be the total traveled distance. 
+
+At the start, \(g(n)\) is obviously 0. \(f(n) = h(n) + g(n)\), but \(g(n) = 0\), so \(f(n) = h(n)\). A* explores the path with the lowest \(h(n)\). At \((E,1)\), \(h(n) = 4\). At \((D,2)\), \(h(n) = 4\). At \((E,3)\), \(h(n) = 2\). Obviously, \(h(n) = f(n)\) at \((E,3)\) is the smallest value so the agent moves to the east first.
+
+\paragraph{Part B}
 A subsection within Section 2.
 
 \section{Conclusion}
