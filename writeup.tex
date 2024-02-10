@@ -24,8 +24,30 @@ First, we want to recognize that the algorithm does not know which nodes are blo
 At the start, \(g(n)\) is obviously 0. \(f(n) = h(n) + g(n)\), but \(g(n) = 0\), so \(f(n) = h(n)\). A* explores the path with the lowest \(h(n)\). At \((E,1)\), \(h(n) = 4\). At \((D,2)\), \(h(n) = 4\). At \((E,3)\), \(h(n) = 2\). Obviously, \(h(n) = f(n)\) at \((E,3)\) is the smallest value so the agent moves to the east first.
 
 \paragraph{Part B}
-A subsection within Section 2.
+We want to give a convincing argument that the agent in finite gridworlds indeed either reaches the target or discovers that this is impossible in finite time. And also prove that the number of moves of the agent until it reaches the target or discovers that this is impossible is bounded from above by the number of unblocked cells squared. 
+\\
+\\
+First let's give a convincing argument that the agent in a finite girdworld will reach the target given that there is no blocked cell between the agent and the target. 
 
+\textbf{Claim 1:} If there are no blocked cells separating the agent and the target in a finite gridworld, then the agent is guaranteed to reach the target.
+
+\textbf{Proof:} Let $P$ be the set of all possible paths between the agent and the target. Since there are no blocked cells, $P$ is non-empty. As the gridworld is finite, $P$ is also finite. Therefore, the agent can explore each path in $P$ one by one, ensuring it reaches the target or determines impossibility in finite time.
+\\
+\\
+Now, we prove that an agent in a finite world will discover that it will not reach the given target in finite time given that there is no path from the agent to the target.
+
+\textbf{Claim 2:} The exploration process of the agent in a finite gridworld either reaches the target or discovers impossibility in finite time.
+
+\textbf{Proof:} Since there is a finite number of paths to explore in the gridworld, the agent can explore each path one by one. In the worst case, it explores all possible paths, guaranteeing that the exploration process finishes in finite time. A* algorithm in this exploration, which uses manhattan distances as the heuristic (which is also a consistent heuristic), also maintains a closed list. Having a closed list ensures that A* does not revisit any new nodes or any new paths that have already been seen. Basically ensuring that no loop will occur.
+\\
+\\
+Now we prove that the number of max moves is less than the number of unblocked cells squared. 
+
+\textbf{Claim 3:} The number of moves of the agent until it reaches the target or discovers impossibility is bounded from above by the number of unblocked cells squared.
+
+\textbf{Proof:} Let $n$ be the number of unblocked cells. In the worst case, the agent visits each unblocked cell at most once. Therefore, the number of moves is at most $n$. Since there are $n$ unblocked cells, the total number of moves is bounded by $n \times n = n^2$.
+\\ 
+\\
 \section{Conclusion}
 Conclude your document here.
 
