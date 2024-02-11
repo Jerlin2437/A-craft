@@ -12,8 +12,8 @@ public class Main {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        int w = 16;
-        int h = 16;
+        int w = 20;
+        int h = 20;
         MazeGenerator generator = new MazeGenerator(w, h, false);
         int maze[][] = generator.generate(0);
         w = maze[0].length;
