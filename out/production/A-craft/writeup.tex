@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry} % Set 1-inch margins on all sides
+
+\title{Exploring A star and Star Craft}
+\author{Jerlin Yuen and Mick Estiler}
+\date{\today} % or specify a date
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+To preface, we have decided to use DFS as our main method to generate our maze. We have used the repository, https://github.com/algoprog/Laby, to base our own implementation of the maze generation in our project. We mainly used Chris's implementation since it also included a start and end node within the 2d 101x101 maze matrix.
+
+\section{Question 1}
+Here, we will explore a bit about the A star algorithm.
+
+\paragraph{Part A}
+
+We want to explore the reasoning of why A* moves east instead of north in Figure 8 of the Homework 1 writeup.
+
+First, we want to recognize that the algorithm does not know which nodes are blocked and which are unblocked. Only neighbouring nodes are visible (immediate north, south, west, east nodes). In figure 8, there are 3 possible nodes that can be traversed at the start, each of which is unblocked. They are: \((E, 1)\), \((E, 3)\), \((D, 2)\) The heuristic \(h(n)\) that will be used will be Manhattan distances. \(g(n)\) will simply be the total traveled distance. 
+
+At the start, \(g(n)\) is obviously 0. \(f(n) = h(n) + g(n)\), but \(g(n) = 0\), so \(f(n) = h(n)\). A* explores the path with the lowest \(h(n)\). At \((E,1)\), \(h(n) = 4\). At \((D,2)\), \(h(n) = 4\). At \((E,3)\), \(h(n) = 2\). Obviously, \(h(n) = f(n)\) at \((E,3)\) is the smallest value so the agent moves to the east first.
+
+\paragraph{Part B}
+We want to give a convincing argument that the agent in finite gridworlds indeed either reaches the target or discovers that this is impossible in finite time. And also prove that the number of moves of the agent until it reaches the target or discovers that this is impossible is bounded from above by the number of unblocked cells squared. 
+\\
+\\
+First let's give a convincing argument that the agent in a finite girdworld will reach the target given that there is no blocked cell between the agent and the target. 
+
+\textbf{Claim 1:} If there are no blocked cells separating the agent and the target in a finite gridworld, then the agent is guaranteed to reach the target.
+
+\textbf{Proof:} Let $P$ be the set of all possible paths between the agent and the target. Since there are no blocked cells that barr agent from reaching target, $P$ is non-empty since there has to exist at least one path. As the gridworld is finite, $P$ is also finite. Therefore, the agent can explore each path in $P$ one by one, ensuring it reaches the target or determines impossibility in finite time.
+\\
+\\
+Now, we prove that an agent in a finite world will discover that it will not reach the given target in finite time given that there is no path from the agent to the target.
+
+\textbf{Claim 2:} The exploration process of the agent in a finite gridworld either reaches the target or discovers impossibility in finite time.
+
+\textbf{Proof:} Since there is a finite number of paths to explore in the gridworld, the agent can explore each path one by one. A* algorithm in this exploration uses a consistent manhattan heuristic, which maintains a closed list ensuring that A* does not revisit any nodes. Since there is a finite amount of posible nodes to visit, we will explore all possible nodes, which will finish in finite time.
+\\
+\\
+Now we prove that the number of max moves is less than the number of unblocked cells squared. 
+
+\textbf{Claim 3:} The number of moves of the agent until it reaches the target or discovers impossibility is bounded from above by the number of unblocked cells squared.
+
+\textbf{Proof:} Let $n$ be the number of unblocked cells. Because A* uses a consistent heuristic, the agent visits each unblocked cell at most once even in its worst case scenario. Therefore, the number of moves is at most $n$. Since there are $n$ unblocked cells, the total number of moves is always less than $n \times n = n^2$. 
+\\ 
+\\
+
+\section{Question 2}
+\section{Question 3}
+\section{Conclusion}
+Conclude your document here.
+
+\end{document}
