@@ -8,8 +8,8 @@ public class ForwardAStar {
 
     PriorityQueue<State> openList = new PriorityQueue<>();  // Priority queue for open list
     HashSet<State> closedSet = new HashSet<>();  // Closed set to keep track of expanded states
-    int counter = 0;  // Counter to track A* searches
-
+    static int counter = 0;  // Counter to track A* searches
+    
     public void computePath(){
 
     }
