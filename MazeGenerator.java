@@ -248,7 +248,12 @@ public final class MazeGenerator{
         }
         return out;
     }
-
+    public MazeBox getStartPosition() {
+        return maze[start_y][start_x];
+    }
+    public MazeBox getEndPosition() {
+        return maze[end_y][end_x];
+    }
     public int[][] generate(int speed) throws InterruptedException{
         while(nextStep(speed)){
             // continue generation

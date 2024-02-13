@@ -1,27 +1,30 @@
-/**
- *
- * @author Chris Samarinas
- */
-public class MazeBox implements Comparable<MazeBox>{
+public class MazeBox implements Comparable<MazeBox> {
     public boolean isObstacle;
     public boolean isVisited;
-    public boolean isAdded;
     public MazeBox previous;
-    public int x;
-    public int y;
-    public int so_far;
-    public double to_go;
-    MazeBox(){
+    public int x, y; // Coordinates in the maze
+    public double g; // Cost from start to this node
+    public double h; // Heuristic estimate from this node to goal
+    public double f; // Total cost, g + h
+
+    MazeBox() {
         isObstacle = true;
         isVisited = false;
-        isAdded = false;
         previous = null;
+        g = Double.POSITIVE_INFINITY; // Initially set to infinity
+        h = 0;
+        f = Double.POSITIVE_INFINITY; // Initially set to infinity
     }
 
+    // Update the compareTo method to compare based on f-value
     @Override
     public int compareTo(MazeBox o) {
-        if(so_far+to_go>o.so_far+o.to_go) return 1;
-        else if(so_far+to_go==o.so_far+o.to_go) return 0;
-        else return -1;
+        return Double.compare(this.f, o.f);
+    }
+
+    // Method to calculate the Manhattan distance as the heuristic
+    public void calculateH(int endX, int endY) {
+        this.h = Math.abs(endX - this.x) + Math.abs(endY - this.y);
+        this.f = this.g + this.h; // Update f-value whenever h or g changes
     }
 }
