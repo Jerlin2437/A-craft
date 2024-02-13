@@ -11,7 +11,12 @@ public class ForwardAStar {
     static int counter = 0;  // Counter to track A* searches
     
     public void computePath(){
-
+        //this basically checks if the g is the goal state because goalstate.g = 0
+        while (goalState.g > findMinFValueInOpenList()) {
+            State s = removeFromOpenListWithMinFValue();
+            closedSet.add(s);
+            
+        }
     }
     public static void main(String[] args){
         // State.search should be defaulted to 0
