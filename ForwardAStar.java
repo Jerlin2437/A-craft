@@ -8,7 +8,7 @@ public class ForwardAStar {
 
     private MazeBox[][] grid;
     private PriorityQueue<MazeBox> openSet;
-    private boolean[][] closedSet;
+    private HashSet<MazeBox> closedSet;
     private int width, height;
     private MazeBox start, goal;
 
@@ -20,47 +20,39 @@ public class ForwardAStar {
         this.width = grid[0].length;
         this.height = grid.length;
         this.openSet = new PriorityQueue<>();
-        this.closedSet = new boolean[height][width];
+        this.closedSet = new HashSet<>();
     }
 
-    //this was written entirely with chat gpt idk if it works ill check tomorow
-    
-    public void computePath() {
-        openSet.add(start);
+    //This will be the actual implementation of computePath following the pseudoCode
+    public void computePath(){
+        boolean pathExists = false;
 
-        while (!openSet.isEmpty()) {
-            MazeBox current = openSet.poll();
+        while (!openSet.isEmpty() && !pathExists) {
 
-            if (current.equals(goal)) {
-                reconstructPath(goal);
-                return;
-            }
+            MazeBox current = openSet.peek(); // Look at the node in OPEN with the smallest f-value without removing it
 
-            closedSet[current.y][current.x] = true;
+            //goal.g is infinity until we've found a path
+            if (goal.g > current.f) { // current.f is the minimum of g(s0) + h(s0) in OPEN
+                // Proceed with A* (ComputePath logic here)
+                // This is where you'd poll from OPEN, update neighbors, etc.
+                current = openSet.poll(); // removes the node with smallest f value;
+                closedSet.add(current);
+                int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+                for (int[] direction : directions) {
+                    int newX = current.x + direction[0];
+                    int newY = current.y + direction[1];
+                    // DO SOEMTHING WITH THIS SET OF ACTIONS
 
-            for (int[] direction : new int[][]{{0,1}, {1,0}, {0,-1}, {-1,0}}) {
-                int newX = current.x + direction[0];
-                int newY = current.y + direction[1];
-
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height && !grid[newY][newX].isObstacle && !closedSet[newY][newX]) {
-                    MazeBox neighbor = grid[newY][newX];
-
-                    double tentativeGScore = current.g + 1; // assuming cost between adjacent cells is 1
-
-                    if (!openSet.contains(neighbor) || tentativeGScore < neighbor.g) {
-                        neighbor.g = tentativeGScore;
-                        neighbor.h = calculateHeuristic(neighbor, goal);
-                        neighbor.f = neighbor.g + neighbor.h;
-                        neighbor.previous = current;
-
-                        if (!openSet.contains(neighbor)) {
-                            openSet.add(neighbor);
-                        }
-                    }
                 }
+
+            } else {
+                pathExists = true; // This condition suggests we've found the path or there's no better path
             }
         }
     }
+
+
+
 
     private void reconstructPath(MazeBox end) {
         // Start from the goal and go backwards through the 'previous' pointers to reconstruct the path
@@ -79,22 +71,22 @@ public class ForwardAStar {
 
         // State.search should be defaulted to 0
 
-        while (!startState.equals(goalState)){
-            counter++;
-            startState.g = 0; //sets g value as 0
-            startState.search = counter; //sets search value in start as counter
-
-            goalState.g = Integer.MAX_VALUE;
-            goalState.search = counter;
-
-            openList.clear();
-            closedSet.clear();
-            openList.add(startState);
-
-            computePath(); // computes A star for this start state
-
-            //We should have path now so move along path until we hit an obstacle
-            move();
-        }
+//        while (!startState.equals(goalState)){
+//            counter++;
+//            startState.g = 0; //sets g value as 0
+//            startState.search = counter; //sets search value in start as counter
+//
+//            goalState.g = Integer.MAX_VALUE;
+//            goalState.search = counter;
+//
+//            openList.clear();
+//            closedSet.clear();
+//            openList.add(startState);
+//
+//            computePath(); // computes A star for this start state
+//
+//            //We should have path now so move along path until we hit an obstacle
+//            move();
+//        }
     }
 }
