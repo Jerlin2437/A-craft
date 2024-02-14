@@ -42,8 +42,15 @@ public class ForwardAStar {
                     int newX = current.x + direction[0];
                     int newY = current.y + direction[1];
                     // DO SOEMTHING WITH THIS SET OF ACTIONS
+                    
+                    if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                        MazeBox neighbor = grid[newY][newX]; // Assume grid is your MazeBox[][]
 
-                }
+                        // Skip if neighbor is an obstacle or already in CLOSED
+                        if (!neighbor.isObstacle && !closedSet.contains(neighbor)) {
+                            double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
+
+                        }
 
             } else {
                 pathExists = true; // This condition suggests we've found the path or there's no better path
