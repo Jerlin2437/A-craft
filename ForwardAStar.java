@@ -50,7 +50,7 @@ public class ForwardAStar {
                     if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
                         MazeBox neighbor = grid[newY][newX]; // Assume grid is your MazeBox[][]
                         if (neighbor.search < counter) {
-
+                            neighbor.g = Integer.MAX_VALUE; //IN PROGRESS
                             //HERE WE WANT TO ADD OBSTACLES TO THE CLOSED LIST
                             //A STAR DOES NOT RUN STATE IF IT IS IN CLOSED LIST
                             //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
