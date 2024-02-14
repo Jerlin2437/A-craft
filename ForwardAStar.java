@@ -46,13 +46,18 @@ public class ForwardAStar {
                     if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
                         MazeBox neighbor = grid[newY][newX]; // Assume grid is your MazeBox[][]
 
+
+                        //HERE WE WANT TO ADD OBSTACLES TO THE CLOSED LIST
+                        //A STAR DOES NOT RUN STATE IF IT IS IN CLOSED LIST
+                        //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
+
                         // Skip if neighbor is an obstacle or already in CLOSED
-                        if (!neighbor.isObstacle && !closedSet.contains(neighbor)) {
+                        if (!closedSet.contains(neighbor)) {
                             double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
 
                         }
                     }
-                }
+                    }
             } else {
                 pathExists = true; // This condition suggests we've found the path or there's no better path
             }
