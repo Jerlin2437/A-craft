@@ -7,6 +7,7 @@ public class ForwardAStar {
     //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
 
     private MazeBox[][] grid;
+    private MazeBox[][] seenGrid;
     private PriorityQueue<MazeBox> openSet;
     private HashSet<MazeBox> closedSet;
     private int width, height;
@@ -15,6 +16,7 @@ public class ForwardAStar {
     static int counter = 0;  // Counter to track A* searches
     public ForwardAStar(MazeBox[][] grid, MazeBox start, MazeBox goal) {
         this.grid = grid;
+        this.seenGrid = new MazeBox[grid.length][grid[0].length];
         this.start = start;
         this.goal = goal;
         this.width = grid[0].length;
@@ -27,34 +29,37 @@ public class ForwardAStar {
     public void computePath(){
         boolean pathExists = false;
 
+
+
         while (!openSet.isEmpty() && !pathExists) {
 
             MazeBox current = openSet.peek(); // Look at the node in OPEN with the smallest f-value without removing it
 
             //goal.g is infinity until we've found a path
             if (goal.g > current.f) { // current.f is the minimum of g(s0) + h(s0) in OPEN
-                // Proceed with A* (ComputePath logic here)
-                // This is where you'd poll from OPEN, update neighbors, etc.
+
+
                 current = openSet.poll(); // removes the node with smallest f value;
                 closedSet.add(current);
                 int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
                 for (int[] direction : directions) {
                     int newX = current.x + direction[0];
                     int newY = current.y + direction[1];
-                    // DO SOEMTHING WITH THIS SET OF ACTIONS
+
 
                     if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
                         MazeBox neighbor = grid[newY][newX]; // Assume grid is your MazeBox[][]
+                        if (neighbor.search < counter) {
 
+                            //HERE WE WANT TO ADD OBSTACLES TO THE CLOSED LIST
+                            //A STAR DOES NOT RUN STATE IF IT IS IN CLOSED LIST
+                            //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
 
-                        //HERE WE WANT TO ADD OBSTACLES TO THE CLOSED LIST
-                        //A STAR DOES NOT RUN STATE IF IT IS IN CLOSED LIST
-                        //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
+                            // Skip if neighbor is an obstacle or already in CLOSED
+                            if (!closedSet.contains(neighbor)) {
+                                double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
 
-                        // Skip if neighbor is an obstacle or already in CLOSED
-                        if (!closedSet.contains(neighbor)) {
-                            double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
-
+                            }
                         }
                     }
                     }
