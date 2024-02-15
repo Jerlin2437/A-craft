@@ -10,8 +10,9 @@ public class ForwardAStar {
     private MazeBox[][] grid;
     // seenGrid array -> set obstacleSet
     private HashSet<MazeBox> obstacleSet;
+    private HashSet<MazeBox> closedSet;
     private PriorityQueue<MazeBox> openSet;
-    private HashMap<MazeBox, MazeBox> closedSet;
+    private HashMap<MazeBox, MazeBox> treeMap;
     private int width, height;
     private MazeBox start, goal;
 
@@ -24,7 +25,8 @@ public class ForwardAStar {
         this.width = grid[0].length;
         this.height = grid.length;
         this.openSet = new PriorityQueue<>();
-        this.closedSet = new HashMap<>();
+        this.treeMap = new HashMap<>();
+        this.closedSet = new HashSet<>();
     }
 
     //This will be the actual implementation of computePath following the pseudoCode
@@ -38,31 +40,31 @@ public class ForwardAStar {
             MazeBox current = openSet.peek(); // Look at the node in OPEN with the smallest f-value without removing it
 
             //goal.g is infinity until we've found a path
-            if (goal.g > current.f) { // current.f is the minimum of g(s0) + h(s0) in OPEN
+            if (goal.g > current.f) { // f(s) is always an undershoot because heuristic is consistent
 
+                current = openSet.poll();
 
-                current = openSet.poll(); // removes the node with smallest f value;
-                // Probs dont need this
-                // closedSet.add(current);
+                closedSet.add(current); //idk if necessary
                 int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
                 for (int[] direction : directions) {
                     int newX = current.x + direction[0];
                     int newY = current.y + direction[1];
 
-
+                    //Doesnt go off the grid
                     if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
-                        MazeBox neighbor = grid[newY][newX]; // Assume grid is your MazeBox[][]
-                        if (neighbor.search < counter) {
-                            neighbor.g = Integer.MAX_VALUE; //IN PROGRESS
-                            //HERE WE WANT TO ADD OBSTACLES TO THE CLOSED LIST
-                            //A STAR DOES NOT RUN STATE IF IT IS IN CLOSED LIST
-                            //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
-
-                            // Skip if neighbor is an obstacle or already in CLOSED
-                            if (!closedSet.containsKey(neighbor)) {
-                                double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
-
+                        MazeBox neighbor = grid[newY][newX];
+                        if (neighbor.search < counter && !obstacleSet.contains(neighbor)) {
+                            neighbor.g = Integer.MAX_VALUE;
+                            neighbor.search = counter;
+                        }
+                        if(neighbor.g > current.g + 1){
+                            neighbor.g = current.g + 1;
+                            treeMap.put(current, neighbor);
+                            if (openSet.contains(neighbor)){
+                                openSet.remove(neighbor);
                             }
+                            neighbor.f = neighbor.g + calculateHeuristic(neighbor, this.goal);
+                            openSet.add(neighbor);
                         }
                     }
                     }
@@ -87,7 +89,7 @@ public class ForwardAStar {
     public static void main(String[] args){
 
 
-
+        //add initial set of obstacles to obstacle set
 
 
         // State.search should be defaulted to 0
