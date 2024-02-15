@@ -8,7 +8,8 @@ public class ForwardAStar {
     //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
 
     private MazeBox[][] grid;
-    private MazeBox[][] seenGrid;
+    // seenGrid array -> set obstacleSet
+    private HashSet<MazeBox> obstacleSet;
     private PriorityQueue<MazeBox> openSet;
     private HashMap<MazeBox, MazeBox> closedSet;
     private int width, height;
@@ -17,7 +18,7 @@ public class ForwardAStar {
     static int counter = 0;  // Counter to track A* searches
     public ForwardAStar(MazeBox[][] grid, MazeBox start, MazeBox goal) {
         this.grid = grid;
-        this.seenGrid = new MazeBox[grid.length][grid[0].length];
+        this.obstacleSet = new HashSet<>();
         this.start = start;
         this.goal = goal;
         this.width = grid[0].length;
@@ -41,7 +42,8 @@ public class ForwardAStar {
 
 
                 current = openSet.poll(); // removes the node with smallest f value;
-                closedSet.add(current);
+                // Probs dont need this
+                // closedSet.add(current);
                 int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
                 for (int[] direction : directions) {
                     int newX = current.x + direction[0];
@@ -57,7 +59,7 @@ public class ForwardAStar {
                             //ONLY ADD INITIAL PERIPHERAL FOV STATES TO THE CLOSED LIST
 
                             // Skip if neighbor is an obstacle or already in CLOSED
-                            if (!closedSet.contains(neighbor)) {
+                            if (!closedSet.containsKey(neighbor)) {
                                 double tentativeG = current.g + 1; // Assuming cost to move to a neighbor is 1
 
                             }
