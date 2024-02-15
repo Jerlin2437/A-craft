@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -9,7 +10,7 @@ public class ForwardAStar {
     private MazeBox[][] grid;
     private MazeBox[][] seenGrid;
     private PriorityQueue<MazeBox> openSet;
-    private HashSet<MazeBox> closedSet;
+    private HashMap<MazeBox, MazeBox> closedSet;
     private int width, height;
     private MazeBox start, goal;
 
@@ -22,7 +23,7 @@ public class ForwardAStar {
         this.width = grid[0].length;
         this.height = grid.length;
         this.openSet = new PriorityQueue<>();
-        this.closedSet = new HashSet<>();
+        this.closedSet = new HashMap<>();
     }
 
     //This will be the actual implementation of computePath following the pseudoCode
