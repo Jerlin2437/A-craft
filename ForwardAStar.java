@@ -57,9 +57,8 @@ public class ForwardAStar {
                         }
                         if(neighbor.g > current.g + 1 && !obstacleSet.contains(neighbor)){
                             neighbor.g = current.g + 1;
-                            neighbor.previous = current;
-                            //treemap will fail
-                          //  treeMap.put(current, neighbor);
+                            //treemap could fail
+                            treeMap.put(neighbor, current);
                             if (openSet.contains(neighbor)){
                                 openSet.remove(neighbor);
                             }
@@ -115,14 +114,8 @@ public class ForwardAStar {
         computePath();
 
         //NOT FINISHED
-        List<MazeBox> path = new ArrayList<>();
-        MazeBox current = goal;
-        while (current != null) {
-            path.add(current);
-            current = current.previous;
-        }
-        Collections.reverse(path); // Optional, if you want the path from start to goal
-        System.out.println(path);
+
+        System.out.println(treeMap);
     }
     public static void main(String[] args){
 
