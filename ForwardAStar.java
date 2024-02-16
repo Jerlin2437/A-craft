@@ -51,13 +51,13 @@ public class ForwardAStar {
                     int newY = current.y + direction[1];
 
                     //Doesnt go off the grid
-                    if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                    if (newX >= 0 && newX < width && newY >= 0 && newY < height ) {
                         MazeBox neighbor = grid[newY][newX];
                         if (neighbor.search < counter && !obstacleSet.contains(neighbor)) {
                             neighbor.g = Integer.MAX_VALUE;
                             neighbor.search = counter;
                         }
-                        if(neighbor.g > current.g + 1){
+                        if(neighbor.g > current.g + 1 && !obstacleSet.contains(neighbor)){
                             neighbor.g = current.g + 1;
                             treeMap.put(current, neighbor);
                             if (openSet.contains(neighbor)){
@@ -86,7 +86,25 @@ public class ForwardAStar {
         // Use Manhattan distance as heuristic
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
+    public void run(){
+        //while loop
+        counter++;
+        start.g = 0;
+        start.search = counter;
+        goal.g = Integer.MAX_VALUE;
+        goal.search = counter;
+        openSet.clear();
+        treeMap.clear();
+        closedSet.clear();
+        //checkObstacles(start);
+        start.h = calculateHeuristic(start, goal);
+        start.f = start.h + start.g;
+        openSet.add(start);
+        computePath();
+
+    }
     public static void main(String[] args){
+
 
 
         //add initial set of obstacles to obstacle set
