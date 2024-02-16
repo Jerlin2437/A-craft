@@ -29,6 +29,8 @@ public class Main {
         }
         System.out.println(generator.getStartPosition().x +" "+generator.getStartPosition().y);
         System.out.println("-------------------------------------");
+        ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+        forwardAStar.run();
 //(0: empty, 1: start, 2: end, 3: obstacle)
     }
 

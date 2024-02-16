@@ -29,4 +29,11 @@ public class MazeBox implements Comparable<MazeBox> {
         this.h = Math.abs(endX - this.x) + Math.abs(endY - this.y);
         this.f = this.g + this.h; // Update f-value whenever h or g changes
     }
+
+    @Override
+    public String toString() {
+        return "MazeBox{" +
+                ", x=" + x +
+                ", y=" + y ;
+    }
 }

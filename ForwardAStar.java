@@ -100,11 +100,22 @@ public class ForwardAStar {
         start.h = calculateHeuristic(start, goal);
         start.f = start.h + start.g;
         openSet.add(start);
-        computePath();
 
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        for (int[] direction : directions) {
+            int newX = start.x + direction[0];
+            int newY = start.y + direction[1];
+            if (newX >= 0 && newX < width && newY >= 0 && newY < height ){
+                MazeBox neighbor = grid[newY][newX];
+                if(neighbor.isObstacle){
+                    obstacleSet.add(neighbor);
+                }
+            }
+        }
+        computePath();
+        System.out.println(treeMap);
     }
     public static void main(String[] args){
-
 
 
         //add initial set of obstacles to obstacle set

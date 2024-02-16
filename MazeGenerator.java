@@ -248,6 +248,10 @@ public final class MazeGenerator{
         }
         return out;
     }
+
+    public MazeBox[][] getMazeBoxes(){
+        return maze;
+    }
     public MazeBox getStartPosition() {
         return maze[start_y][start_x];
     }
