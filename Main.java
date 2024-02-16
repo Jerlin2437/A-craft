@@ -12,8 +12,8 @@ public class Main {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        int w = 10;
-        int h = 10;
+        int w = 5;
+        int h = 5;
         MazeGenerator generator = new MazeGenerator(w, h, false);
         int maze[][] = generator.generate(0);
         w = maze[0].length;
@@ -25,7 +25,7 @@ public class Main {
                 if (j < w - 1) System.out.print(" ");
             }
             System.out.print("\n");
-
+//3 is obstacle, 0 is good, 1 is start, 2 is end
         }
         System.out.println(generator.getStartPosition().x +" "+generator.getStartPosition().y);
         System.out.println("-------------------------------------");

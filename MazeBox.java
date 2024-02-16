@@ -32,8 +32,6 @@ public class MazeBox implements Comparable<MazeBox> {
 
     @Override
     public String toString() {
-        return "MazeBox{" +
-                ", x=" + x +
-                ", y=" + y ;
+        return "("+x+","+y+")";
     }
 }

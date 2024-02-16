@@ -1,6 +1,4 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class ForwardAStar {
 
@@ -59,7 +57,9 @@ public class ForwardAStar {
                         }
                         if(neighbor.g > current.g + 1 && !obstacleSet.contains(neighbor)){
                             neighbor.g = current.g + 1;
-                            treeMap.put(current, neighbor);
+                            neighbor.previous = current;
+                            //treemap will fail
+                          //  treeMap.put(current, neighbor);
                             if (openSet.contains(neighbor)){
                                 openSet.remove(neighbor);
                             }
@@ -113,7 +113,16 @@ public class ForwardAStar {
             }
         }
         computePath();
-        System.out.println(treeMap);
+
+        //NOT FINISHED
+        List<MazeBox> path = new ArrayList<>();
+        MazeBox current = goal;
+        while (current != null) {
+            path.add(current);
+            current = current.previous;
+        }
+        Collections.reverse(path); // Optional, if you want the path from start to goal
+        System.out.println(path);
     }
     public static void main(String[] args){
 
