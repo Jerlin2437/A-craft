@@ -88,6 +88,10 @@ public class ForwardAStar {
     public void run(){
         //while loop
         counter++;
+        while (!start.equals(goal)){
+            //put everything except final print into this while loop
+            //hard to debug if we put everything inside so we will keep while empty until A star is good for sure
+        }
         start.g = 0;
         start.search = counter;
         goal.g = Integer.MAX_VALUE;
@@ -95,11 +99,23 @@ public class ForwardAStar {
         openSet.clear();
         treeMap.clear();
         closedSet.clear();
-        //checkObstacles(start);
+        checkObstacles(start);
         start.h = calculateHeuristic(start, goal);
         start.f = start.h + start.g;
         openSet.add(start);
 
+
+        computePath();
+        if (openSet.isEmpty()){
+            System.out.println("We cannot reach the target.");
+        }
+        //NOT FINISHED ( Follow Tree Pointers here)
+        System.out.println(treeMap);
+
+        System.out.println("We cannot reach the target.");
+    }
+
+    private void checkObstacles(MazeBox start) {
         int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         for (int[] direction : directions) {
             int newX = start.x + direction[0];
@@ -111,12 +127,8 @@ public class ForwardAStar {
                 }
             }
         }
-        computePath();
-
-        //NOT FINISHED
-
-        System.out.println(treeMap);
     }
+
     public static void main(String[] args){
 
 
