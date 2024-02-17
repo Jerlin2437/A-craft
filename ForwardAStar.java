@@ -88,7 +88,7 @@ public class ForwardAStar {
     public void run(){
         //while loop
 
-        while (!start.equals(goal)){
+    //    while (!start.equals(goal)){
             //put everything except final print into this while loop
             //hard to debug if we put everything inside so we will keep while empty until A star is good for sure\\
 
@@ -117,7 +117,7 @@ public class ForwardAStar {
             } else {
                 moveAlongPath(path);
             }
-        }
+      //  }
 
 
 
@@ -147,7 +147,9 @@ public class ForwardAStar {
     //chatgpted- may have issues
     public void moveAlongPath(List<MazeBox> path) {
         for (int i = 0; i < path.size() - 1; i++) { // Stop one step before the end to check for obstacles
+
             MazeBox current = path.get(i);
+            checkObstacles(current);
             MazeBox next = path.get(i + 1);
 
             if (obstacleSet.contains(next)) {
@@ -157,6 +159,7 @@ public class ForwardAStar {
 
             // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
             System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
+
         }
     }
 
