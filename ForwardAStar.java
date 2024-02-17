@@ -87,32 +87,47 @@ public class ForwardAStar {
     }
     public void run(){
         //while loop
-        counter++;
+
         while (!start.equals(goal)){
             //put everything except final print into this while loop
-            //hard to debug if we put everything inside so we will keep while empty until A star is good for sure
+            //hard to debug if we put everything inside so we will keep while empty until A star is good for sure\\
+
+            counter++;
+            start.g = 0;
+            start.search = counter;
+            goal.g = Integer.MAX_VALUE;
+            goal.search = counter;
+            openSet.clear();
+            treeMap.clear();
+            closedSet.clear();
+            checkObstacles(start);
+            start.h = calculateHeuristic(start, goal);
+            start.f = start.h + start.g;
+            openSet.add(start);
+            computePath();
+            if (openSet.isEmpty()){
+                System.out.println("We cannot reach the target.");
+            }
+            printMaze();
+
+            //chatgpted- may have issues
+            List<MazeBox> path = reconstructPath();
+            if (path.isEmpty()) {
+                System.out.println("We cannot reach the target.");
+            } else {
+                moveAlongPath(path);
+            }
         }
-        start.g = 0;
-        start.search = counter;
-        goal.g = Integer.MAX_VALUE;
-        goal.search = counter;
-        openSet.clear();
-        treeMap.clear();
-        closedSet.clear();
-        checkObstacles(start);
-        start.h = calculateHeuristic(start, goal);
-        start.f = start.h + start.g;
-        openSet.add(start);
 
 
-        computePath();
-        if (openSet.isEmpty()){
-            System.out.println("We cannot reach the target.");
-        }
+
+
+
+
         //NOT FINISHED ( Follow Tree Pointers here)
         System.out.println(treeMap);
 
-        System.out.println("We cannot reach the target.");
+        System.out.println("We reached the target.");
     }
 
     private void checkObstacles(MazeBox start) {
@@ -126,6 +141,63 @@ public class ForwardAStar {
                     obstacleSet.add(neighbor);
                 }
             }
+        }
+    }
+
+    //chatgpted- may have issues
+    public void moveAlongPath(List<MazeBox> path) {
+        for (int i = 0; i < path.size() - 1; i++) { // Stop one step before the end to check for obstacles
+            MazeBox current = path.get(i);
+            MazeBox next = path.get(i + 1);
+
+            if (obstacleSet.contains(next)) {
+                System.out.println("Stopped before hitting an obstacle at: (" + next.x + ", " + next.y + ")");
+                break; // Stop moving if the next box is an obstacle
+            }
+
+            // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
+            System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
+        }
+    }
+
+    //chatgpted- may have issues
+    public List<MazeBox> reconstructPath() {
+        List<MazeBox> path = new ArrayList<>();
+        MazeBox current = goal;
+        while (current != null && !current.equals(start)) {
+            path.add(0, current); // Add to the beginning of the list
+            current = treeMap.get(current);
+        }
+        path.add(0, start); // Add start at the beginning
+        return path; // This path is from start to goal
+    }
+
+    public void printMaze() {
+        // First, reconstruct the path from the goal to the start
+        HashSet<MazeBox> pathSet = new HashSet<>();
+        MazeBox current = goal;
+        while (current != null) {
+            pathSet.add(current);
+            current = treeMap.get(current);
+        }
+
+        // Print the maze
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                MazeBox box = grid[y][x];
+                if (box.equals(start)) {
+                    System.out.print("1 "); // Start
+                } else if (box.equals(goal)) {
+                    System.out.print("2 "); // Goal
+                } else if (obstacleSet.contains(box)) {
+                    System.out.print("3 "); // Obstacle
+                } else if (pathSet.contains(box)) {
+                    System.out.print("4 "); // Path
+                } else {
+                    System.out.print("0 "); // Valid path
+                }
+            }
+            System.out.println();
         }
     }
 
