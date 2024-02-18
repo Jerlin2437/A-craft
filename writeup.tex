@@ -49,7 +49,70 @@ Now we prove that the number of max moves is less than the number of unblocked c
 \\ 
 \\
 
-\section{Question 2}
+\section{Question 2 - Exploring Tie-Breaking Methods in Priority Queues}
+
+In this section, we delve into the concept of implementing different methods to resolve ties within a min priority queue. Our focus is on a queue that organizes nodes based on their $f$ value, ensuring that the node with the smallest $f$ value is retrieved when polling the queue. However, scenarios arise where two $f$ values are exactly equal, necessitating a tie-breaking mechanism to maintain queue order.
+
+To address this, we consider prioritizing nodes based on their $g$ values as a tie-breaker. Given that our implementation is in Java, this tie-breaking logic is incorporated into the \texttt{compareTo} function. Specifically:
+
+\begin{itemize}
+    \item \textbf{Prioritizing Smaller $g$ Values:} If our goal is to prefer nodes with smaller $g$ values in the event of a tie, the \texttt{compareTo} function can be implemented as follows: \texttt{return Double.compare(this.g, o.g);}.
+    \item \textbf{Prioritizing Larger $g$ Values:} Conversely, to prefer nodes with larger $g$ values when a tie occurs, we would adjust the \texttt{compareTo} function to: \texttt{return -Double.compare(this.g, o.g);}.
+\end{itemize}
+
+This approach allows us to fine-tune our priority queue's behavior, ensuring that it aligns with the specific requirements of our algorithm or use case.
+
+\subsection{Runtime Analysis in a 101x101 Grid}
+In our 101x101 grid that was run 50 times, the average runtime for each grid search is as follows:
+\begin{itemize}
+    \item For prioritizing smaller $g$ values, the time each grid took was 9.384355004 seconds.
+    \item For prioritizing larger $g$ values, the time each grid took was 7.03633 seconds.
+\end{itemize}
+
+The difference in runtime can be attributed to the grid's design. Larger, more complex grids, such as our 101x101 scenario with over 10,000 squares, seem to favor algorithms that resemble depth-first search (DFS). When prioritizing larger $g$ values, the algorithm explores nodes that are farther away, akin to how DFS operates by delving deeper into one path before backtracking.
+
+\subsection{Implications of Prioritizing Larger $g$ Values}
+This method appears to run more efficiently because the goal state is likely very far from the start state. Such a strategy shares similarities with the depth-first search approach, which often runs faster in large, complex search spaces. DFS explores as far as possible along each branch before backtracking, which can be more efficient in scenarios where the goal state is distant. This minimizes the number of nodes visited by not fully exploring every level before moving to the next.
+
+Consequently, prioritizing larger $g$ values in our priority queue inadvertently adopts a strategy akin to DFS. This is particularly beneficial in our grid search problem, where the path to the goal is long and winding. It leverages the advantages of DFS, such as avoiding the overhead associated with maintaining a large frontier, which is common in breadth-first search (BFS). This tailored approach enhances our algorithm's efficiency in navigating through the complexities of the grid.
+
+\subsection{Further Explorations of Different Methods to Break Ties}
+In addition to direct comparisons between \(g\) values for tie-breaking, another approach involves assigning each node a single priority value. This method deviates from ordering nodes based purely on their smallest \(f\) value, relying instead on a pre-calculated priority that incorporates both \(f\) and \(g\) values. This strategy offers nuanced control over the prioritization process, particularly regarding how \(f\) and \(g\) values contribute to a node's overall priority.
+
+\subsubsection{Preferring Smaller \(g\) Values with a Single Priority Value}
+To implement an algorithm that prefers smaller \(g\) values using a single priority value, we adjust the formula to favor nodes with lower \(g\) values. The formula for preferring smaller \(g\) values is:
+\begin{verbatim}
+    final double c = 15000; // Constant larger than any possible g-value in the grid.
+    
+    // Calculate priority values incorporating both f and g, favoring smaller g-values.
+    double thisPriority = c * this.f + this.g;
+\end{verbatim}
+This approach ensures that among nodes with the same \(f\) value, those with smaller \(g\) values receive higher priority.
+
+\subsubsection{Preferring Larger \(g\) Values with a Single Priority Value}
+Conversely, to prefer larger \(g\) values, we use a formula that inversely relates the \(g\) value's effect, rewarding higher \(g\) values with more prioritized positions. The formula for larger \(g\) values is:
+\begin{verbatim}
+    final double c = 15000; // Constant larger than any possible g-value in the grid.
+    
+    // Calculate priority values incorporating both f and g, favoring larger g-values.
+    double thisPriority = c * this.f - this.g;
+\end{verbatim}
+This method prioritizes nodes with larger \(g\) values when \(f\) values are equal, aligning with strategies that benefit from deeper or costlier path explorations.
+
+\subsubsection{Impact of the Constant \(C\) on Priority Calculation}
+The constant \(C\) significantly influences the priority calculation for both smaller and larger \(g\) values. The choice of \(C\) allows for the fine-tuning of \(f\) and \(g\) values' relative impact:
+\begin{itemize}
+    \item \textbf{Higher \(C\) Value:} Increasing \(C\) minimizes the relative impact of \(g\) value differences, emphasizing the \(f\) value's dominance in the priority calculation. This setting is more neutral regarding \(g\) value preferences, focusing on \(f\) value disparities.
+    \item \textbf{Lower \(C\) Value:} Lowering \(C\) increases the significance of \(g\) value differences in the priority calculation. For smaller \(g\) values, this makes the algorithm more sensitive to \(g\) value reductions. For larger \(g\) values, it accentuates the benefit of higher \(g\) values in tie-breaking scenarios.
+\end{itemize}
+
+Adjusting \(C\) provides a mechanism to balance the influence of \(f\) and \(g\) values in determining node priority, allowing the algorithm to be customized to specific search problem requirements or optimization goals. In our example, of 101x101 grids, the \(C\) should be greater than 10,201.
+
+\subsubsection{Runtime Analysis and Algorithm Efficiency}
+The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and emphasis on \(g\) values affect algorithm performance across various configurations. By exploring these tie-breaking methods and adjusting the priority calculation, we can fine-tune our priority queue's behavior to align closely with algorithmic objectives, optimizing for quick pathfinding, deep explorations, or a balanced approach between different criteria.
+
+
+
 \section{Question 3}
 \section{Conclusion}
 Conclude your document here.

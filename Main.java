@@ -41,6 +41,7 @@ public class Main {
         }
 //Run 1 took 7.03633 secs on average, this prefered larger g values
 //Run 2 took 9.384355004 secs, preferred smaller g values
+        // run 3 took secs, prefering larger g values but made priority an integer value vs comparison value
 
         double averageTime = totalTime / 50.0; // Compute average time
         System.out.println("Average time over 50 runs: " + (averageTime) + " seconds.");
