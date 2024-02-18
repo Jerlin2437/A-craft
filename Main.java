@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         int w = 101;
         int h = 101;
-        int numOfRuns = 50;
+        int numOfRuns = 10;
         double totalTime = 0; // Accumulate total time here
 
         for (int run = 0; run < numOfRuns; run++) {
@@ -44,8 +44,9 @@ public class Main {
         //6.90 secs
 //Run 2 took 9.384355004 secs, preferred smaller g values
         //10.43 secs
-// run 3 took secs, prefering larger g values but made priority an integer value vs comparison value
-
+// run 3 took 7.575845557999999 secs, prefering larger g values but made priority an integer value vs comparison value
+ //
+        //  run 4    //8.414431606000004 prefering small g with priority as INt
         double averageTime = totalTime / numOfRuns; // Compute average time
         System.out.println("Average time over "+numOfRuns+" runs: " + (averageTime) + " seconds.");
     }

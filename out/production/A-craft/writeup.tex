@@ -82,7 +82,7 @@ In addition to direct comparisons between \(g\) values for tie-breaking, another
 \subsubsection{Preferring Smaller \(g\) Values with a Single Priority Value}
 To implement an algorithm that prefers smaller \(g\) values using a single priority value, we adjust the formula to favor nodes with lower \(g\) values. The formula for preferring smaller \(g\) values is:
 \begin{verbatim}
-    final double c = 15000; // Constant larger than any possible g-value in the grid.
+    final double c = 20000; // Constant larger than any possible g-value in the grid.
     
     // Calculate priority values incorporating both f and g, favoring smaller g-values.
     double thisPriority = c * this.f + this.g;
@@ -109,7 +109,13 @@ The constant \(C\) significantly influences the priority calculation for both sm
 Adjusting \(C\) provides a mechanism to balance the influence of \(f\) and \(g\) values in determining node priority, allowing the algorithm to be customized to specific search problem requirements or optimization goals. In our example, of 101x101 grids, the \(C\) should be greater than 10,201.
 
 \subsubsection{Runtime Analysis and Algorithm Efficiency}
-The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and emphasis on \(g\) values affect algorithm performance across various configurations. By exploring these tie-breaking methods and adjusting the priority calculation, we can fine-tune our priority queue's behavior to align closely with algorithmic objectives, optimizing for quick pathfinding, deep explorations, or a balanced approach between different criteria.
+The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and emphasis on \(g\) values affect algorithm performance across various configurations. In our 101x101 grid run over 50 times, the average runtime for each grid search is as follows:
+\begin{itemize}
+    \item For prioritizing smaller $g$ values with a single priority value, the time each grid took was 9.384355004 seconds.
+    \item For prioritizing larger $g$ values witha single priority value, the time each grid took was 10.61443 seconds.
+\end{itemize}
+
+ By exploring these tie-breaking methods and adjusting the priority calculation, we can fine-tune our priority queue's behavior to align closely with algorithmic objectives, optimizing for quick pathfinding, deep explorations, or a balanced approach between different criteria.
 
 
 

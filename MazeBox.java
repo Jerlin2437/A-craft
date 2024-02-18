@@ -29,7 +29,7 @@ public class MazeBox implements Comparable<MazeBox> {
 //        }
 //        return primary;
 
-        final double c = 15000; // Constant larger than any possible g-value in the grid.
+        final double c = 20000; // Constant larger than any possible g-value in the grid.
 
         // Calculate priority values incorporating both f and g, favoring larger g-values.
         double thisPriority = c * this.f - this.g;
