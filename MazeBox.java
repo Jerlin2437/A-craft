@@ -21,7 +21,15 @@ public class MazeBox implements Comparable<MazeBox> {
     // Update the compareTo method to compare based on f-value
     @Override
     public int compareTo(MazeBox o) {
-        return Double.compare(this.f, o.f);
+        int primary = Double.compare(this.f, o.f);
+        if (primary == 0) { // if f-values are the same
+            //two options, test both
+            return Double.compare(this.g, o.g); // prefer smaller g-values
+ //           return -Double.compare(this.g, o.g); // prefer larger g-values, hence the negation
+        }
+        return primary;
+
+
     }
 
     // Method to calculate the Manhattan distance as the heuristic

@@ -85,13 +85,11 @@ public class ForwardAStar {
         // Use Manhattan distance as heuristic
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
-    public void run(){
-        //while loop
+    //returns number of seconds it took to run
+    public double run(){
+        long startTime = System.nanoTime(); // Start timing
 
-    //    while (!start.equals(goal)){
-            //put everything except final print into this while loop
-            //hard to debug if we put everything inside so we will keep while empty until A star is good for sure\\
-
+        while (!start.equals(goal)){
             counter++;
             start.g = 0;
             start.search = counter;
@@ -107,30 +105,30 @@ public class ForwardAStar {
             computePath();
             if (openSet.isEmpty()){
                 System.out.println("We cannot reach the target.");
+                return (System.nanoTime() - startTime); // Return the duration in nanoseconds
             }
             printMaze();
 
-            //chatgpted- may have issues
             List<MazeBox> path = reconstructPath();
             if (path.isEmpty()) {
                 System.out.println("We cannot reach the target.");
+                return (System.nanoTime() - startTime); // Return the duration in nanoseconds
             } else {
-                moveAlongPath(path);
+                start = moveAlongPath(path, goal);
             }
-      //  }
-
-
-
-
-
-
-        //NOT FINISHED ( Follow Tree Pointers here)
-        System.out.println(treeMap);
-
+        }
         System.out.println("We reached the target.");
+
+        long durationNano = (System.nanoTime() - startTime); // Duration in nanoseconds
+        double durationSeconds = durationNano / 1_000_000_000.0; // Convert to seconds
+        System.out.println("Duration: " + durationSeconds + " seconds.");
+        return durationNano; // or return durationSeconds if you change the return type to double
+       // return (System.nanoTime() - startTime); // Return the duration in nanoseconds
     }
 
+
     private void checkObstacles(MazeBox start) {
+       // System.out.println("Checking Obstacles!");
         int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         for (int[] direction : directions) {
             int newX = start.x + direction[0];
@@ -145,7 +143,7 @@ public class ForwardAStar {
     }
 
     //chatgpted- may have issues
-    public void moveAlongPath(List<MazeBox> path) {
+    public MazeBox moveAlongPath(List<MazeBox> path, MazeBox goal) {
         for (int i = 0; i < path.size() - 1; i++) { // Stop one step before the end to check for obstacles
 
             MazeBox current = path.get(i);
@@ -154,13 +152,15 @@ public class ForwardAStar {
 
             if (obstacleSet.contains(next)) {
                 System.out.println("Stopped before hitting an obstacle at: (" + next.x + ", " + next.y + ")");
-                break; // Stop moving if the next box is an obstacle
+                return current;
             }
 
             // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
             System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
-
+            if (current.equals(goal))
+                return current;
         }
+        return goal;
     }
 
     //chatgpted- may have issues
@@ -172,6 +172,7 @@ public class ForwardAStar {
             current = treeMap.get(current);
         }
         path.add(0, start); // Add start at the beginning
+        System.out.println("Path: " + path);
         return path; // This path is from start to goal
     }
 
