@@ -122,7 +122,7 @@ public class ForwardAStar {
         long durationNano = (System.nanoTime() - startTime); // Duration in nanoseconds
         double durationSeconds = durationNano / 1_000_000_000.0; // Convert to seconds
         System.out.println("Duration: " + durationSeconds + " seconds.");
-        return durationNano; // or return durationSeconds if you change the return type to double
+        return durationSeconds; // or return durationSeconds if you change the return type to double
        // return (System.nanoTime() - startTime); // Return the duration in nanoseconds
     }
 

@@ -14,9 +14,10 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         int w = 101;
         int h = 101;
+        int numOfRuns = 50;
         double totalTime = 0; // Accumulate total time here
 
-        for (int run = 0; run < 50; run++) {
+        for (int run = 0; run < numOfRuns; run++) {
             MazeGenerator generator = new MazeGenerator(w, h, false);
             int[][] maze = generator.generate(0);
             w = maze[0].length;
@@ -40,11 +41,13 @@ public class Main {
             System.out.println("Run " + (run + 1) + " took: " + (time) + " seconds.");
         }
 //Run 1 took 7.03633 secs on average, this prefered larger g values
+        //6.90 secs
 //Run 2 took 9.384355004 secs, preferred smaller g values
-        // run 3 took secs, prefering larger g values but made priority an integer value vs comparison value
+        //10.43 secs
+// run 3 took secs, prefering larger g values but made priority an integer value vs comparison value
 
-        double averageTime = totalTime / 50.0; // Compute average time
-        System.out.println("Average time over 50 runs: " + (averageTime) + " seconds.");
+        double averageTime = totalTime / numOfRuns; // Compute average time
+        System.out.println("Average time over "+numOfRuns+" runs: " + (averageTime) + " seconds.");
     }
 
 

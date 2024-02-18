@@ -25,7 +25,7 @@ public class MazeBox implements Comparable<MazeBox> {
 //        if (primary == 0) { // if f-values are the same
 //            //two options, test both
 //            return Double.compare(this.g, o.g); // prefer smaller g-values
-// //           return -Double.compare(this.g, o.g); // prefer larger g-values, hence the negation
+//            //return -Double.compare(this.g, o.g); // prefer larger g-values, hence the negation
 //        }
 //        return primary;
 
