@@ -92,7 +92,7 @@ This approach ensures that among nodes with the same \(f\) value, those with sma
 \subsubsection{Preferring Larger \(g\) Values with a Single Priority Value}
 Conversely, to prefer larger \(g\) values, we use a formula that inversely relates the \(g\) value's effect, rewarding higher \(g\) values with more prioritized positions. The formula for larger \(g\) values is:
 \begin{verbatim}
-    final double c = 15000; // Constant larger than any possible g-value in the grid.
+    final double c = 20000; // Constant larger than any possible g-value in the grid.
     
     // Calculate priority values incorporating both f and g, favoring larger g-values.
     double thisPriority = c * this.f - this.g;
@@ -121,7 +121,7 @@ Interestingly, the trend of prioritizing larger \(g\) values leading to a faster
 
 
 
-\section{Question 3}
+\section{Question 3 - Comparing Forwards vs. Backwards A*}
 \section{Conclusion}
 Conclude your document here.
 
