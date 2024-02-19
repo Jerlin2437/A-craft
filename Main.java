@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         int w = 101;
         int h = 101;
-        int numOfRuns = 50;
+        int numOfRuns = 1;
         double totalTime = 0; // Accumulate total time here
 
         for (int run = 0; run < numOfRuns; run++) {

@@ -116,7 +116,7 @@ public class BackwardAStar {
             printMaze();
 
             List<MazeBox> path = reconstructPath();
-            System.out.println(path);
+
             if (path.isEmpty()) {
                 System.out.println("We cannot reach the target.");
                 return (System.nanoTime() - startTime); // Return the duration in nanoseconds
@@ -172,7 +172,6 @@ public class BackwardAStar {
 
     //chatgpted- may have issues
     public List<MazeBox> reconstructPath() {
-        System.out.println(treeMap);
         List<MazeBox> path = new ArrayList<>();
         MazeBox current = start;
         while (current != null && !current.equals(goal)) {
