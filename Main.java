@@ -12,9 +12,9 @@ public class Main {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        int w = 6;
-        int h = 6;
-        int numOfRuns = 1;
+        int w = 101;
+        int h = 101;
+        int numOfRuns = 50;
         double totalTime = 0; // Accumulate total time here
 
         for (int run = 0; run < numOfRuns; run++) {
