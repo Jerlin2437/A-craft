@@ -1,5 +1,6 @@
 public class MazeBox implements Comparable<MazeBox> {
     public boolean isObstacle;
+    public boolean hasHValue; //for adaptive a star
     public boolean isVisited;
     public MazeBox previous;
     public int x, y; // Coordinates in the maze
@@ -11,6 +12,7 @@ public class MazeBox implements Comparable<MazeBox> {
     MazeBox() {
         isObstacle = true;
         isVisited = false;
+        hasHValue = false;
         previous = null;
         g = Double.POSITIVE_INFINITY; // Initially set to infinity
         h = 0;

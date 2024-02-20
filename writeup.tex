@@ -66,7 +66,7 @@ This approach allows us to fine-tune our priority queue's behavior, ensuring tha
 In our 101x101 grid that was run 50 times, the average runtime for each grid search is as follows:
 \begin{itemize}
     \item For prioritizing smaller $g$ values, the time each grid took was 9.384355004 seconds.
-    \item For prioritizing larger $g$ values, the time each grid took was 7.03633 seconds.
+    \item For prioritizing larger $g$ values, the time each grid took was 8.03633 seconds.
 \end{itemize}
 
 The difference in runtime can be attributed to the grid's design. Larger, more complex grids, such as our 101x101 scenario with over 10,000 squares, seem to favor algorithms that resemble depth-first search (DFS). When prioritizing larger $g$ values, the algorithm explores nodes that are farther away, akin to how DFS operates by delving deeper into one path before backtracking.
@@ -111,17 +111,40 @@ Adjusting \(C\) provides a mechanism to balance the influence of \(f\) and \(g\)
 \subsubsection{Runtime Analysis and Algorithm Efficiency}
 The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and the emphasis on \(g\) values affect algorithm performance across various configurations. In our 101x101 grid, conducted over 50 runs, the average runtime for each grid search is as follows:
 \begin{itemize}
-    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds.
-    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds.
+    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds.
+    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds.
 \end{itemize}
 Interestingly, the trend of prioritizing larger \(g\) values leading to a faster result, as compared to prioritizing smaller \(g\) values, persists here. However, the performance times when using an integer as a priority value are slightly longer compared to direct comparison. This could be attributed to the extra CPU cycles required to calculate the priority value or it may be a result of the relatively small sample size. 
 
 
 
 
-
-
 \section{Question 3 - Comparing Forwards vs. Backwards A*}
+We also used the tiebreak method to favor larger g values. If the g values are equal, we decided randomly on which one to explore. 
+
+\begin{itemize}
+    \item For Forwards A* the average time each grid took was 9.11443 seconds and explored 421,140.14 nodes.
+    \item For Backwards A* the average time each grid took 10.072 seconds and explored 3,652,076.38 nodes. 
+\end{itemize}
+
+It seems there there is a significant difference between nodes explored in backwards vs forwards A star. There could be a few explanations as to why. 
+\subsection{Forwards A*}
+Forwards A* starts from the agents current position and aims to reach the goal. This may be a lot more intuitive as it simulates the perspective of an agent and is continually moving forward. It may also encounter obstacles A LOT sooner. Since when the maze is first starting, obstacles near the goal state are almost invisible whereas obstacles near the start state are likely to be seen. Remember that we can only see obstacles if the agent travels to there in run(), not through the hypothetical path computed in computePath(). 
+
+\subsection{Backwards A*}
+Backwards A* starts from the goal position and works back to the agent's current location. Can be less intuitive since it involves thinking in reverse but can be advantageous in certain scenarios, such as when the area near the goal is less obstructed and the initial path planning phase can proceed with fewer interruptions. Since the goal area is surrounded by obstacles we can't see yet, Repeated Backward A* might expand fewer nodes initially, as it can more freely establish a path before encountering denser obstacle distributions. 
+
+\subsection{Comparison}
+While Backwards and Forwards A* algorithms show negligible efficiency differences on small grids, their performance diverges on larger grids. Backwards A* tends to lead to suboptimal efficiency as it explores nodes near the goal first, potentially ignoring obstacles near the start. Consequently, on large grids, it may find the quickest unblocked path from the goal to an undefined start area, requiring navigation around the entire grid for a suitable entrance into the start node. In contrast, Forwards A* prioritizes exploring paths away from obstacles near the start, resulting in a potentially more direct route but encountering more obstacles near the goal. Thus, the choice between the two algorithms should consider the grid's size and complexity, as well as the trade-offs between initial exploration strategies and overall pathfinding efficiency.
+
+\subsubsection{Goal Visibility}
+In some scenarios, the visibility of the goal from the start position or vice versa can impact the effectiveness of each algorithm. For instance, if the goal is highly visible from the start position, Forwards A* might have an advantage as it can quickly identify a path towards the goal. Conversely, if the start position is highly visible from the goal, Backwards A* might have an advantage as it can quickly identify a path towards the start.
+
+\section{Question 4 - Heuristics in the Adaptive A*}
+\section{Question 5 - Adaptive A*}
+Runtime: 9.524 seconds
+Nodes Explored: 353434.02
+
 \section{Conclusion}
 Conclude your document here.
 

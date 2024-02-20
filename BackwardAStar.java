@@ -13,6 +13,7 @@ public class BackwardAStar {
     private HashMap<MazeBox, MazeBox> treeMap;
     private int width, height;
     private MazeBox start, goal, tempStart, tempGoal;
+    public double nodesExplored = 0;
     static int counter = 0;  // Counter to track A* searches
     public BackwardAStar(MazeBox[][] grid, MazeBox start, MazeBox goal) {
         this.grid = grid;
@@ -59,6 +60,7 @@ public class BackwardAStar {
                         }
                         if(neighbor.g > current.g + 1 && !obstacleSet.contains(neighbor)){
                             //if(neighbor.g > current.g + 1 && !closedSet.contains(neighbor) && !obstacleSet.contains(neighbor))
+                            nodesExplored++;
                             neighbor.g = current.g + 1;
                             //treemap could fail
                             treeMap.put(neighbor, current);
@@ -86,6 +88,7 @@ public class BackwardAStar {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
     //returns number of seconds it took to run
+    //Run 1 took 10.53 secs average
     public double run(){
         long startTime = System.nanoTime(); // Start timing
 
@@ -125,7 +128,6 @@ public class BackwardAStar {
             }
         }
         System.out.println("We reached the target.");
-
         long durationNano = (System.nanoTime() - startTime); // Duration in nanoseconds
         double durationSeconds = durationNano / 1_000_000_000.0; // Convert to seconds
         System.out.println("Duration: " + durationSeconds + " seconds.");
