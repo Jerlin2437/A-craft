@@ -109,7 +109,7 @@ public class BinaryHeap {
 
 
     private void heapifyDown(int startIndex) {
-        int index = 0;
+        int index = startIndex;
         while (hasLeftChild(index)) {
             int smallerChildIndex = getLeftChildIndex(index);
             if (hasRightChild(index) && rightChild(index).compareTo(leftChild(index)) < 0) {
