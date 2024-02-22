@@ -9,7 +9,7 @@ public class BackwardAStar {
     // seenGrid array -> set obstacleSet
     private HashSet<MazeBox> obstacleSet;
     private HashSet<MazeBox> closedSet;
-    private PriorityQueue<MazeBox> openSet;
+    private BinaryHeap openSet;
     private HashMap<MazeBox, MazeBox> treeMap;
     private int width, height;
     private MazeBox start, goal, tempStart, tempGoal;
@@ -22,7 +22,7 @@ public class BackwardAStar {
         this.goal = goal;
         this.width = grid[0].length;
         this.height = grid.length;
-        this.openSet = new PriorityQueue<>();
+        this.openSet = new BinaryHeap();
         this.treeMap = new HashMap<>();
         this.closedSet = new HashSet<>();
         this.tempStart = new MazeBox();
@@ -64,9 +64,8 @@ public class BackwardAStar {
                             neighbor.g = current.g + 1;
                             //treemap could fail
                             treeMap.put(neighbor, current);
-                            if (openSet.contains(neighbor)){
-                                openSet.remove(neighbor);
-                            }
+                            // removed contains
+                            openSet.remove(neighbor);
                             neighbor.f = neighbor.g + calculateHeuristic(neighbor, tempGoal);
                             openSet.add(neighbor);
                         }

@@ -4,7 +4,6 @@ public class ForwardAStar {
 
     //State will likely just be a MazeBox datatype that also holds stuff like search(state) variable and heuristic data
     //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
-    //Only one that implements the binary heap
 
     private MazeBox[][] grid;
     // seenGrid array -> set obstacleSet

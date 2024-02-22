@@ -1,6 +1,5 @@
 // rough draft for implementing the binary heap by scratch: refactor pq with the binary heap
 // not using a generic version
-// CURRENTLY ONLY FORWARD A STAR IMPLEMENTS BINARYHEAP
 
 import java.util.Arrays;
 
