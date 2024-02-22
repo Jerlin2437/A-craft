@@ -1,16 +1,16 @@
+/*
 import java.util.*;
 
 public class ForwardAStar {
 
     //State will likely just be a MazeBox datatype that also holds stuff like search(state) variable and heuristic data
     //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
-    //Only one that implements the binary heap
 
     private MazeBox[][] grid;
     // seenGrid array -> set obstacleSet
     private HashSet<MazeBox> obstacleSet;
     private HashSet<MazeBox> closedSet;
-    private BinaryHeap openSet;
+    private PriorityQueue<MazeBox> openSet;
     private HashMap<MazeBox, MazeBox> treeMap;
     public double nodesExplored = 0;
     private int width, height;
@@ -24,7 +24,7 @@ public class ForwardAStar {
         this.goal = goal;
         this.width = grid[0].length;
         this.height = grid.length;
-        this.openSet = new BinaryHeap();
+        this.openSet = new PriorityQueue<>();
         this.treeMap = new HashMap<>();
         this.closedSet = new HashSet<>();
     }
@@ -64,10 +64,9 @@ public class ForwardAStar {
                             neighbor.g = current.g + 1;
                             //treemap could fail
                             treeMap.put(neighbor, current);
-                            // so binaryheap doesnt have to implement contains
-                            // if (openSet.contains(neighbor)){
-                            openSet.remove(neighbor);
-                            // }
+                            if (openSet.contains(neighbor)){
+                                openSet.remove(neighbor);
+                            }
                             neighbor.f = neighbor.g + calculateHeuristic(neighbor, this.goal);
                             openSet.add(neighbor);
                         }
@@ -212,3 +211,4 @@ public class ForwardAStar {
 
     }
 }
+*/

@@ -1,17 +1,16 @@
 // rough draft for implementing the binary heap by scratch: refactor pq with the binary heap
+// not using a generic version
+// CURRENTLY ONLY FORWARD A STAR IMPLEMENTS BINARYHEAP
 
 import java.util.Arrays;
-import java.util.Comparator;
 
-public class BinaryHeap<T> {
-    private Object[] heap;
+public class BinaryHeap {
+    private MazeBox[] heap;
     private int size;
-    private Comparator<? super T> comparator;
     private static final int DEFAULT_CAPACITY = 10;
 
-    public BinaryHeap(Comparator<? super T> comparator) {
-        this.heap = new Object[DEFAULT_CAPACITY];
-        this.comparator = comparator;
+    public BinaryHeap() {
+        this.heap = new MazeBox[DEFAULT_CAPACITY];
     }
 
     // methods for typical heap operations
@@ -23,14 +22,14 @@ public class BinaryHeap<T> {
     private boolean hasRightChild(int index) { return getRightChildIndex(index) < size; }
     private boolean hasParent(int index) { return getParentIndex(index) >= 0; }
 
-    private T leftChild(int index) { return (T) heap[getLeftChildIndex(index)]; }
-    private T rightChild(int index) { return (T) heap[getRightChildIndex(index)]; }
-    private T parent(int index) { return (T) heap[getParentIndex(index)]; }
+    private MazeBox leftChild(int index) { return heap[getLeftChildIndex(index)]; }
+    private MazeBox rightChild(int index) { return heap[getRightChildIndex(index)]; }
+    private MazeBox parent(int index) { return heap[getParentIndex(index)]; }
 
     // heap internal operations
 
     private void swap(int indexOne, int indexTwo) {
-        Object temp = heap[indexOne];
+        MazeBox temp = heap[indexOne];
         heap[indexOne] = heap[indexTwo];
         heap[indexTwo] = temp;
     }
@@ -42,10 +41,9 @@ public class BinaryHeap<T> {
     }
 
     // usable methods
-    // NEED REMOVE, ADD
 
     public void clear() {
-        heap = new Object[DEFAULT_CAPACITY];
+        heap = new MazeBox[DEFAULT_CAPACITY];
         size = 0;
     }
 
@@ -54,46 +52,71 @@ public class BinaryHeap<T> {
         return size == 0;
     }
 
-    public T peek() {
+    public MazeBox peek() {
         if (size == 0) return null;
-        return (T) heap[0];
+        return heap[0];
     }
 
-    public T poll() {
+    public MazeBox poll() {
         if (size == 0) return null;
-        T item = (T) heap[0];
+        MazeBox item = heap[0];
         heap[0] = heap[size - 1];
         size--;
         heapifyDown();
         return item;
     }
 
-    public void add(T item) {
+    public void add(MazeBox item) {
         ensureExtraCapacity();
         heap[size] = item;
         size++;
         heapifyUp();
     }
+    public boolean remove(MazeBox item) {
+        for (int i = 0; i < size; i++) {
+            if (heap[i].equals(item)) {
+                // Swap with the last item
+                swap(i, size - 1);
+                size--;
+                // Ensure the heap property is maintained
+                heapifyDown(i);
+                heapifyUp(i);
+                return true; // Item was found and removed
+            }
+        }
+        return false;
+    }
+
 
     // more helper methods
 
     private void heapifyUp() {
-        int index = size - 1;
-        while (hasParent(index) && comparator.compare(parent(index), (T) heap[index]) > 0) {
+        heapifyUp(size - 1);
+    }
+
+    private void heapifyDown() {
+        heapifyDown(0);
+    }
+
+    // overloading for finding mazeboxes in the array
+    private void heapifyUp(int startIndex) {
+        int index = startIndex;
+        while (hasParent(index) && parent(index).compareTo(heap[index]) > 0) {
             swap(getParentIndex(index), index);
             index = getParentIndex(index);
         }
     }
 
-    private void heapifyDown() {
+
+    private void heapifyDown(int startIndex) {
         int index = 0;
         while (hasLeftChild(index)) {
             int smallerChildIndex = getLeftChildIndex(index);
-            if (hasRightChild(index) && comparator.compare(rightChild(index), leftChild(index)) < 0) {
+            if (hasRightChild(index) && rightChild(index).compareTo(leftChild(index)) < 0) {
                 smallerChildIndex = getRightChildIndex(index);
             }
 
-            if (comparator.compare((T) heap[index], (T) heap[smallerChildIndex]) <= 0) {
+            if ((heap[index]).compareTo(heap[smallerChildIndex]) <= 0) {
                 break;
             } else {
                 swap(index, smallerChildIndex);
