@@ -23,23 +23,23 @@ public class MazeBox implements Comparable<MazeBox> {
     // Update the compareTo method to compare based on f-value
     @Override
     public int compareTo(MazeBox o) {
-//        int primary = Double.compare(this.f, o.f);
-//        if (primary == 0) { // if f-values are the same
-//            //two options, test both
-//            return Double.compare(this.g, o.g); // prefer smaller g-values
-//            //return -Double.compare(this.g, o.g); // prefer larger g-values, hence the negation
-//        }
-//        return primary;
+        int primary = Double.compare(this.f, o.f);
+        if (primary == 0) { // if f-values are the same
+            //two options, test both
+           // return Double.compare(this.g, o.g); // prefer smaller g-values
+            return -Double.compare(this.g, o.g); // prefer larger g-values, hence the negation
+        }
+        return primary;
 
-        final double c = 20000; // Constant larger than any possible g-value in the grid.
-
-        // Calculate priority values incorporating both f and g, favoring larger g-values.
-        double thisPriority = c * this.f + this.g;
-        double otherPriority = c * o.f + o.g;
-
-        // Compare the calculated priorities
-        return Double.compare(thisPriority, otherPriority);
-    }
+ //       final double c = 20000; // Constant larger than any possible g-value in the grid.
+//
+//        // Calculate priority values incorporating both f and g, favoring larger g-values.
+//        double thisPriority = c * this.f + this.g;
+//       double otherPriority = c * o.f + o.g;
+//
+//        // Compare the calculated priorities
+//        return Double.compare(thisPriority, otherPriority);
+//    }
 
     // Method to calculate the Manhattan distance as the heuristic
     public void calculateH(int endX, int endY) {
