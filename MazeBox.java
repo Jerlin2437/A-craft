@@ -39,7 +39,7 @@ public class MazeBox implements Comparable<MazeBox> {
 //
 //        // Compare the calculated priorities
 //        return Double.compare(thisPriority, otherPriority);
-//    }
+    }
 
     // Method to calculate the Manhattan distance as the heuristic
     public void calculateH(int endX, int endY) {
