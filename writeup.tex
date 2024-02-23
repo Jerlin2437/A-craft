@@ -66,8 +66,8 @@ This approach allows us to fine-tune our priority queue's behavior, ensuring tha
 \subsection{Runtime Analysis in a 101x101 Grid}
 In our 101x101 grid that was run 50 times, the average runtime for each grid search is as follows:
 \begin{itemize}
-    \item For prioritizing smaller $g$ values, the time each grid took was 9.384355004 seconds.
-    \item For prioritizing larger $g$ values, the time each grid took was 8.03633 seconds.
+    \item For prioritizing smaller $g$ values, the time each grid took was 9.384355004 seconds, and explored 2,282,065 nodes .
+    \item For prioritizing larger $g$ values, the time each grid took was 8.03633 seconds and explored 401,241.10 nodes.
 \end{itemize}
 
 The difference in runtime can be attributed to the grid's design. Larger, more complex grids, such as our 101x101 scenario with over 10,000 squares, seem to favor algorithms that resemble depth-first search (DFS). When prioritizing larger $g$ values, the algorithm explores nodes that are farther away, akin to how DFS operates by delving deeper into one path before backtracking.
@@ -112,8 +112,8 @@ Adjusting \(C\) provides a mechanism to balance the influence of \(f\) and \(g\)
 \subsubsection{Runtime Analysis and Algorithm Efficiency}
 The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and the emphasis on \(g\) values affect algorithm performance across various configurations. In our 101x101 grid, conducted over 50 runs, the average runtime for each grid search is as follows:
 \begin{itemize}
-    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds.
-    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds.
+    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds and explored 2,497,440.54 nodes.
+    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds, and explored 309,217.92 nodes.
 \end{itemize}
 Interestingly, the trend of prioritizing larger \(g\) values leading to a faster result, as compared to prioritizing smaller \(g\) values, persists here. However, the performance times when using an integer as a priority value are slightly longer compared to direct comparison. This could be attributed to the extra CPU cycles required to calculate the priority value or it may be a result of the relatively small sample size. 
 

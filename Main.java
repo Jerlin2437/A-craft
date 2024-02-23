@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         int w = 101;
         int h = 101;
-        int numOfRuns = 1;
+        int numOfRuns = 50;
         double totalTime = 0; // Accumulate total time here
 
         double totalNodesExplored = 0;
