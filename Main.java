@@ -9,7 +9,7 @@ public class Main {
 
     /**
      * @param args the command line arguments
-     * @throws java.lang.InterruptedException
+     * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
         int w = 101;
@@ -17,6 +17,7 @@ public class Main {
         int numOfRuns = 1;
         double totalTime = 0; // Accumulate total time here
 
+        double totalNodesExplored = 0;
         for (int run = 0; run < numOfRuns; run++) {
             MazeGenerator generator = new MazeGenerator(w, h, false);
             int[][] maze = generator.generate(0);
@@ -32,21 +33,29 @@ public class Main {
             System.out.println();
         }
         System.out.println("----------------------------------");
+            double nodesExplored = 0;
 
             //runs backwards a Star
-            BackwardAStar backwardAStar = new BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-            double time = backwardAStar.run();
+//            BackwardAStar backwardAStar = new BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+//            double time = backwardAStar.run();
+            // nodesExplored = backwardAStar.nodesExplored;
 //Runs forward A star
-//            ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-//            double time = forwardAStar.run(); // Make sure run returns long indicating the time
-
+            ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+            double time = forwardAStar.run(); // Make sure run returns long indicating the time
             totalTime += time; // Add the time of this run to the total time
+            nodesExplored = forwardAStar.nodesExplored;
 
+//            AdaptiveAStar adaptiveAStar = new AdaptiveAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+//            time = adaptiveAStar.run();
+//            nodesExplored = adaptiveAStar.nodesExplored;
+
+            totalNodesExplored += nodesExplored;
             // Optional: Print time for each run
             System.out.println("Run " + (run + 1) + " took: " + (time) + " seconds.");
         }
 
-
+        double averageExplored = totalNodesExplored / numOfRuns;
+        System.out.println("Average nodes explored over "+numOfRuns+" runs: " + (averageExplored) + " explored.");
         double averageTime = totalTime / numOfRuns; // Compute average time
         System.out.println("Average time over "+numOfRuns+" runs: " + (averageTime) + " seconds.");
     }
