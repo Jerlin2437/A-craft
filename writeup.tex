@@ -173,7 +173,7 @@ This subsection's goal is to provide proof that  Adaptive A* leaves initially co
 where h*(s) is the true cost from s to the goal. The definition used for consistency will be the same as in section 5.1
 
 \subsection{Proof of Consistency and Admissibility}
-Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic h\_{\text{new}}(s)
+Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic $h_{new}$
 
 
 
@@ -182,6 +182,41 @@ Adaptive A* updates the heuristic values after each search based on the discover
 \section{Question 5 - Adaptive A*}
 Runtime: 9.524 seconds
 Nodes Explored: 353434.02
+
+\section{Question 6: Statistical Hypothesis Testing}
+
+To determine whether the observed performance differences between two search algorithms are systematic or merely due to sampling noise, statistical hypothesis testing is employed. This section outlines the process for performing such a test.
+
+\subsection{Formulating Hypotheses}
+\begin{itemize}
+    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in performance between Algorithm A and Algorithm B. Any observed difference is due to sampling noise.
+    \item \textbf{Alternative Hypothesis} (\(H_1\)): There is a significant difference in performance between Algorithm A and Algorithm B, indicating systematic differences.
+\end{itemize}
+
+\subsection{Choosing a Statistical Test}
+An independent two-sample t-test is suitable for comparing the means of two independent samples, such as the performance measurements (e.g., execution time or nodes expanded) of two algorithms.
+
+\subsection{Determining Significance Level}
+A commonly used significance level is \(\alpha = 0.05\), which reflects a 5\% risk of incorrectly rejecting the null hypothesis (Type I error).
+
+\subsection{Collecting Data}
+Execute both Algorithm A and Algorithm B on a set of diversified test cases. Record the performance metric of interest (e.g., execution time) for each test case.
+
+\subsection{Conducting the Test}
+\begin{enumerate}
+    \item Compute the mean and standard deviation of the performance metric for each algorithm.
+    \item Use the t-test to compare these means, calculating the test statistic and corresponding p-value.
+\end{enumerate}
+
+\subsection{Interpreting Results}
+\begin{itemize}
+    \item If the p-value is less than or equal to \(\alpha\) (\(p \leq \alpha\)), reject the null hypothesis in favor of the alternative hypothesis. This suggests the performance difference is statistically significant and likely systematic.
+    \item If the p-value is greater than \(\alpha\) (\(p > \alpha\)), fail to reject the null hypothesis. This suggests that the observed performance differences could be due to random variation in the test cases (sampling noise) rather than a systematic difference.
+\end{itemize}
+
+\textbf{Example}: Suppose we compare Algorithm A and Algorithm B using 30 test cases and obtain a p-value of 0.03 from our t-test. Since \(p < \alpha\), we reject the null hypothesis, concluding that there is a statistically significant difference in performance between the algorithms, indicative of a systematic difference rather than mere sampling variability.
+
+This approach enables a rigorous evaluation of performance differences between search algorithms, distinguishing genuine differences from those arising due to the limited number of test cases.
 
 \section{Conclusion}
 Conclude your document here.
