@@ -112,8 +112,8 @@ Adjusting \(C\) provides a mechanism to balance the influence of \(f\) and \(g\)
 \subsubsection{Runtime Analysis and Algorithm Efficiency}
 The efficiency of algorithms using this priority calculation method varies based on grid design and implementation specifics. The analysis of runtime data for both preferences reveals how different \(C\) values and the emphasis on \(g\) values affect algorithm performance across various configurations. In our 101x101 grid, conducted over 50 runs, the average runtime for each grid search is as follows:
 \begin{itemize}
-    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds.
-    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds.
+    \item For prioritizing smaller \(g\) values with a single priority value, the average time each grid took was 9.61443 seconds and explored 2,497,440.54 nodes.
+    \item For prioritizing larger \(g\) values with a single priority value, the average time each grid took was 8.584355004 seconds, and explored 309,217.92 nodes.
 \end{itemize}
 Interestingly, the trend of prioritizing larger \(g\) values leading to a faster result, as compared to prioritizing smaller \(g\) values, persists here. However, the performance times when using an integer as a priority value are slightly longer compared to direct comparison. This could be attributed to the extra CPU cycles required to calculate the priority value or it may be a result of the relatively small sample size. 
 
@@ -173,7 +173,7 @@ This subsection's goal is to provide proof that  Adaptive A* leaves initially co
 where h*(s) is the true cost from s to the goal. The definition used for consistency will be the same as in section 5.1
 
 \subsection{Proof of Consistency and Admissibility}
-Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic h\_{\text{new}}(s)
+Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic $h_{new}$
 
 
 
@@ -182,6 +182,43 @@ Adaptive A* updates the heuristic values after each search based on the discover
 \section{Question 5 - Adaptive A*}
 Runtime: 9.524 seconds
 Nodes Explored: 353434.02
+
+\section{Question 6: Statistical Analysis}
+
+Given the experimental task of implementing and comparing Repeated Forward A* and Adaptive A* with respect to their runtime, as detailed in Question 5, we observe varying performance metrics. To rigorously determine whether these performance differences are systematic or attributable to sampling noise, we employ statistical hypothesis testing.
+
+\subsection{Objective}
+The objective is to statistically analyze runtime differences between Repeated Forward A* and Adaptive A*, both of which break ties among cells with the same \(f\)-value in favor of cells with larger \(g\)-values.
+
+\subsection{Formulating Hypotheses}
+\begin{itemize}
+    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in the runtime of Repeated Forward A* and Adaptive A*. Any observed differences are due to random variation in test cases.
+    \item \textbf{Alternative Hypothesis} (\(H_1\)): There is a significant difference in the runtime of Repeated Forward A* and Adaptive A*, indicating a systematic performance difference.
+\end{itemize}
+
+\subsection{Choosing a Statistical Test}
+To compare the average runtimes, we use an independent two-sample t-test, suitable for assessing the means from two independent samples collected from the implementations of both algorithms across a variety of test cases.
+
+\subsection{Determining Significance Level}
+We select a significance level of \(\alpha = 0.05\), allowing for a 5\% probability of type I error, where we might incorrectly reject the null hypothesis.
+
+\subsection{Data Collection}
+Run both algorithms across a sufficiently large and diverse set of test cases to ensure representativeness. Record the runtime for each algorithm on each test case.
+
+\subsection{Conducting the Test}
+\begin{enumerate}
+    \item Calculate the mean and standard deviation of runtimes for each algorithm.
+    \item Perform the t-test to compare these means, obtaining the test statistic and the p-value.
+\end{enumerate}
+
+\subsection{Interpreting Results}
+\begin{itemize}
+    \item If \(p \leq \alpha\), we reject \(H_0\) and accept \(H_1\), concluding that the difference in runtime is statistically significant and likely systematic.
+    \item If \(p > \alpha\), we fail to reject \(H_0\), suggesting that any observed differences in runtime might be due to sampling noise rather than a systematic difference.
+\end{itemize}
+
+\textbf{Conclusion}: This statistical approach provides a rigorous framework to analyze the runtime performance of Repeated Forward A* and Adaptive A*. By objectively assessing whether differences are systematic, we can derive more reliable conclusions about the algorithms' efficiencies and the impact of their tie-breaking strategies on runtime.
+
 
 \section{Conclusion}
 Conclude your document here.

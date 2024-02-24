@@ -60,6 +60,4 @@ public class Main {
         double averageTime = totalTime / numOfRuns; // Compute average time
         System.out.println("Average time over "+numOfRuns+" runs: " + (averageTime) + " seconds.");
     }
-
-
 }

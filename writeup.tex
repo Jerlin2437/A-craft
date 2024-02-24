@@ -168,12 +168,30 @@ Satisfying the consistency condition:
 Therefore, Manhattan distances are consistent in gridworlds where movement is restricted to the four main compass directions. This property is crucial for ensuring the forward, backward, and adaptive A* search algorithms using Manhattan distances as heuristics are both complete and optimal, minimizing the number of nodes expanded to find the shortest path to the goal.
 
 \subsection{Admissibility and Consistency of Adaptive A*}
-This subsection's goal is to provide proof that  Adaptive A* leaves initially consistent h-values consistent even if action costs can increase.  A heuristic \(h(s)\) is admissible if it never overestimates the cost to reach the goal from any node \(s\). So for every node s: \[h(s) \leq h^*(s)\]
+This subsection's goal is to provide proof that Adaptive A* leaves initially consistent \(h\)-values consistent even if action costs can increase. A heuristic \(h(s)\) is admissible if it never overestimates the cost to reach the goal from any node \(s\). So for every node \(s\): 
+\[h(s) \leq h^*(s)\]
 
-where h*(s) is the true cost from s to the goal. The definition used for consistency will be the same as in section 5.1
+where \(h^*(s)\) is the true cost from \(s\) to the goal. The definition used for consistency will be the same as in section 5.1.
 
-\subsection{Proof of Consistency and Admissibility}
-Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic $h_{new}$
+\subsection{Proof of Consistency}
+Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic \(h_{\text{new}}(s)\) for each node \(s\) that was expanded during the search is updated to reflect the newly discovered costs. The updated heuristic is calculated as follows:
+\[h_{\text{new}}(s) = g(s_{\text{goal}}) - g(s)\]
+
+where \(g(s_{\text{goal}})\) is the cost from the start state to the goal state, determined by the path found in the most recent search, and \(g(s)\) is the cost from the start state to node \(s\), also determined in the most recent search. This calculation ensures that \(h_{\text{new}}(s)\) reflects the exact cost to reach the goal from \(s\) minus the cost already incurred to reach \(s\), making it an admissible heuristic because it does not overestimate the true cost to reach the goal.
+
+To prove that \(h_{\text{new}}(s)\) is consistent, we need to show that for any node \(s\) and its successor \(succ(s)\) with action cost \(c(s, a, succ(s))\), the following condition holds:
+\[h_{\text{new}}(s) \leq c(s, a, succ(s)) + h_{\text{new}}(succ(s))\]
+
+Given the definition of \(h_{\text{new}}(s)\), we substitute the expressions for \(h_{\text{new}}(s)\) and \(h_{\text{new}}(succ(s))\):
+\[g(s_{\text{goal}}) - g(s) \leq c(s, a, succ(s)) + \left(g(s_{\text{goal}}) - g(succ(s))\right)\]
+
+Since \(g(succ(s)) = g(s) + c(s, a, succ(s))\), we substitute \(g(succ(s))\) into the inequality:
+\[g(s_{\text{goal}}) - g(s) \leq c(s, a, succ(s)) + g(s_{\text{goal}}) - \left(g(s) + c(s, a, succ(s))\right)\]
+
+Simplifying both sides of the inequality, we find that both sides are equivalent, proving the consistency of \(h_{\text{new}}(s)\).
+
+Therefore, the update mechanism of Adaptive A* ensures that the heuristic values remain both admissible and consistent, even as action costs increase. This guarantees that Adaptive A* will continue to find the optimal path to the goal while potentially reducing the number of nodes expanded in subsequent searches, as the heuristic values become more informed.
+
 
 
 \section{Question 5 - Analysis of Repeated Forward A* and Adaptive A* Performance}
