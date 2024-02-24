@@ -40,14 +40,15 @@ public class Main {
 //            double time = backwardAStar.run();
             // nodesExplored = backwardAStar.nodesExplored;
 //Runs forward A star
-            ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-            double time = forwardAStar.run(); // Make sure run returns long indicating the time
-            totalTime += time; // Add the time of this run to the total time
-            nodesExplored = forwardAStar.nodesExplored;
+       //     ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+      //      double time = forwardAStar.run(); // Make sure run returns long indicating the time
+      //      totalTime += time; // Add the time of this run to the total time
+      //      nodesExplored = forwardAStar.nodesExplored;
 
-//            AdaptiveAStar adaptiveAStar = new AdaptiveAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-//            time = adaptiveAStar.run();
-//            nodesExplored = adaptiveAStar.nodesExplored;
+            AdaptiveAStar adaptiveAStar = new AdaptiveAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+            double time = adaptiveAStar.run();
+            totalTime += time;
+            nodesExplored = adaptiveAStar.nodesExplored;
 
             totalNodesExplored += nodesExplored;
             // Optional: Print time for each run

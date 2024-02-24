@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.21)  23 FEB 2024 17:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.21)  23 FEB 2024 19:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -215,10 +215,10 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1780 strings out of 474485
- 27797 string characters out of 5743734
+ 1778 strings out of 474485
+ 27735 string characters out of 5743734
  1936542 words of memory out of 5000000
- 24100 multiletter control sequences out of 15000+600000
+ 24098 multiletter control sequences out of 15000+600000
  563955 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,6n,65p,892b,197s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -234,12 +234,13 @@ Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/m
 icke/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:
 /Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
 pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
-msfonts/cm/cmsy7.pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmtt10.pfb>
-Output written on writeup.pdf (7 pages, 185012 bytes).
+m/cmr8.pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmsy10.pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmsy7.pfb><C:/Users/micke/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on writeup.pdf (7 pages, 196677 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
+ 96 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

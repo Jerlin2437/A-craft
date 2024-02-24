@@ -176,47 +176,70 @@ where h*(s) is the true cost from s to the goal. The definition used for consist
 Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic $h_{new}$
 
 
+\section{Question 5 - Analysis of Repeated Forward A* and Adaptive A* Performance}
+In our experimental comparison between Repeated Forward A* and Adaptive A*, both algorithms were configured to break ties among cells with the same \(f\)-value in favor of cells with larger \(g\)-values. Any remaining ties broken randomly. The algorithms were evaluated based on the average number of nodes explored and the average runtime across 50 runs. Here are the observed results:
+
+\subsection{Observed Results}
+
+\begin{itemize}
+    \item \textbf{Repeated Forward A*}:
+    \begin{itemize}
+        \item Average nodes explored: 321,618.78
+        \item Average time: 9.9985 seconds
+    \end{itemize}
+    \item \textbf{Adaptive A*}:
+    \begin{itemize}
+        \item Average nodes explored: 310,153.78
+        \item Average time: 10.0492 seconds
+    \end{itemize}
+\end{itemize}
+
+\subsection{Analysis of Observations}
+
+The results indicate that, on average, Adaptive A* explores fewer nodes than Repeated Forward A* across 50 runs. This could suggest that Adaptive A* is slightly more efficient in navigating the search space, potentially due to its mechanism of updating heuristic values based on previous searches, which may allow it to make more informed decisions in later runs.
+
+However, despite exploring fewer nodes, Adaptive A* exhibits a marginally higher average runtime than Repeated Forward A*. This counterintuitive observation can be attributed to several factors. Adaptive A* updates the heuristic values of nodes based on the results of each search. This process, while beneficial for reducing the number of explored nodes, introduces computational overhead that is not present in Repeated Forward A*. Also, although both algorithms use the same tie-breaking strategy, the dynamics of how ties are encountered and resolved can differ due to the adaptive nature of the heuristic in Adaptive A*. This could influence the runtime in subtle ways.
+
+\subsection{Conclusion}
+
+The observation that Adaptive A* explores fewer nodes but takes slightly longer to run than Repeated Forward A* underscores the complexity of algorithm performance analysis. It highlights that node exploration efficiency does not always directly correlate with runtime efficiency. The computational overhead being introduced after every run in Adaptive A* is definitely the main factor in slowing down the overall performance of the search algorithm.
 
 
+\section{Question 6 - Statistical Hypothesis Testing for Runtime Differences}
 
-\section{Question 5 - Adaptive A*}
-Runtime: 9.524 seconds
-Nodes Explored: 353434.02
-
-\section{Question 6: Statistical Hypothesis Testing}
-
-To determine whether the observed performance differences between two search algorithms are systematic or merely due to sampling noise, statistical hypothesis testing is employed. This section outlines the process for performing such a test.
+Following the experimental comparison in Question 5 between Repeated Forward A* and Adaptive A* regarding their runtimes, we observed that Adaptive A* had a slightly higher average runtime over 50 runs, despite exploring fewer nodes on average. To determine whether this observed difference in runtime is statistically significant or merely a result of sampling variability, we propose conducting a statistical hypothesis test.
 
 \subsection{Formulating Hypotheses}
+
 \begin{itemize}
-    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in performance between Algorithm A and Algorithm B. Any observed difference is due to sampling noise.
-    \item \textbf{Alternative Hypothesis} (\(H_1\)): There is a significant difference in performance between Algorithm A and Algorithm B, indicating systematic differences.
+    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in the runtime between Repeated Forward A* and Adaptive A*. Any observed differences are attributable to sampling noise.
+    \item \textbf{Alternative Hypothesis} (\(H_A\)): There is a significant difference in the runtime between Repeated Forward A* and Adaptive A*, indicating a systematic difference in performance.
 \end{itemize}
 
-\subsection{Choosing a Statistical Test}
-An independent two-sample t-test is suitable for comparing the means of two independent samples, such as the performance measurements (e.g., execution time or nodes expanded) of two algorithms.
+\subsection{Set \(\alpha\)}
+We set the level of significance, \(\alpha\), to 0.05. This value represents the threshold for rejecting the null hypothesis, indicating a 5\% risk of concluding a difference when there is none.
 
-\subsection{Determining Significance Level}
-A commonly used significance level is \(\alpha = 0.05\), which reflects a 5\% risk of incorrectly rejecting the null hypothesis (Type I error).
-
-\subsection{Collecting Data}
-Execute both Algorithm A and Algorithm B on a set of diversified test cases. Record the performance metric of interest (e.g., execution time) for each test case.
-
-\subsection{Conducting the Test}
-\begin{enumerate}
-    \item Compute the mean and standard deviation of the performance metric for each algorithm.
-    \item Use the t-test to compare these means, calculating the test statistic and corresponding p-value.
-\end{enumerate}
-
-\subsection{Interpreting Results}
+\subsection{Collect Data}
+Data consists of the average runtimes of both algorithms over 50 runs:
 \begin{itemize}
-    \item If the p-value is less than or equal to \(\alpha\) (\(p \leq \alpha\)), reject the null hypothesis in favor of the alternative hypothesis. This suggests the performance difference is statistically significant and likely systematic.
-    \item If the p-value is greater than \(\alpha\) (\(p > \alpha\)), fail to reject the null hypothesis. This suggests that the observed performance differences could be due to random variation in the test cases (sampling noise) rather than a systematic difference.
+    \item Repeated Forward A*: Average runtime over 50 runs.
+    \item Adaptive A*: Average runtime over 50 runs.
 \end{itemize}
 
-\textbf{Example}: Suppose we compare Algorithm A and Algorithm B using 30 test cases and obtain a p-value of 0.03 from our t-test. Since \(p < \alpha\), we reject the null hypothesis, concluding that there is a statistically significant difference in performance between the algorithms, indicative of a systematic difference rather than mere sampling variability.
+\subsection{Calculate a Test Statistic}
+Perform an independent two-sample t-test to calculate the test statistic. This involves comparing the mean runtimes of the two algorithms to assess if the observed difference is statistically significant given the variance and sample size.
 
-This approach enables a rigorous evaluation of performance differences between search algorithms, distinguishing genuine differences from those arising due to the limited number of test cases.
+\subsection{Construct Acceptance / Rejection Regions}
+The rejection region is defined by the critical value associated with the chosen \(\alpha\). If the calculated test statistic falls into the rejection region (typically, if the p-value \(\leq \alpha\)), we reject \(H_0\).
+
+\subsection{Conclusion about \(H_0\)}
+\begin{itemize}
+    \item If the p-value \(\leq 0.05\), reject \(H_0\) in favor of \(H_A\), concluding there is a statistically significant difference in runtime.
+    \item If the p-value \(> 0.05\), fail to reject \(H_0\), indicating that any observed differences could be attributed to chance.
+\end{itemize}
+
+This structured approach to hypothesis testing allows us to quantitatively assess whether the differences in runtime between Repeated Forward A* and Adaptive A* are statistically significant or if they could merely be the result of sampling variability.
+
 
 \section{Conclusion}
 Conclude your document here.
