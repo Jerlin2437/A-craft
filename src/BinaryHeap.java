@@ -1,5 +1,6 @@
-// rough draft for implementing the binary heap by scratch: refactor pq with the binary heap
+package src;// rough draft for implementing the binary heap by scratch: refactor pq with the binary heap
 // not using a generic version
+
 
 import java.util.Arrays;
 

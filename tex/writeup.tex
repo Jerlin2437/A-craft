@@ -3,7 +3,7 @@
 \usepackage{amsmath}
 
 \title{Exploring A star and Star Craft}
-\author{Jerlin Yuen and Mick Estiler}
+\author{Jerlin Yuen (NetID: jy823, RUID: 214007343) and Mick Estiler (NetID: me6969, RUID: 589)}
 \date{\today} % or specify a date
 
 \begin{document}
@@ -12,6 +12,9 @@
 
 \section{Introduction}
 To preface, we have decided to use DFS as our main method to generate our maze. We have used the repository, https://github.com/algoprog/Laby, to base our own implementation of the maze generation in our project. We mainly used Chris's implementation since it also included a start and end node within the 2d 101x101 maze matrix.
+\\
+\\
+Our language of choice is Java. To generate accurate statistics for each experiment, we conducted a new run each time instead of using previously collected data.  Also it is important to note the hardware setup that the experiments were conducted on. A laptop with a AMD Ryzen 9 7940HS was used. Keep in mind that tests were performed while the laptop was plugged in, allowing for greater power draw. For the in person demonstration, slower run times may be noted due to the plugged vs unplugged nature of a laptop. 
 
 \section{Question 1}
 Here, we will explore a bit about the A star algorithm.
@@ -168,59 +171,97 @@ Satisfying the consistency condition:
 Therefore, Manhattan distances are consistent in gridworlds where movement is restricted to the four main compass directions. This property is crucial for ensuring the forward, backward, and adaptive A* search algorithms using Manhattan distances as heuristics are both complete and optimal, minimizing the number of nodes expanded to find the shortest path to the goal.
 
 \subsection{Admissibility and Consistency of Adaptive A*}
-This subsection's goal is to provide proof that  Adaptive A* leaves initially consistent h-values consistent even if action costs can increase.  A heuristic \(h(s)\) is admissible if it never overestimates the cost to reach the goal from any node \(s\). So for every node s: \[h(s) \leq h^*(s)\]
+This subsection's goal is to provide proof that Adaptive A* leaves initially consistent \(h\)-values consistent even if action costs can increase. A heuristic \(h(s)\) is admissible if it never overestimates the cost to reach the goal from any node \(s\). So for every node \(s\): 
+\[h(s) \leq h^*(s)\]
 
-where h*(s) is the true cost from s to the goal. The definition used for consistency will be the same as in section 5.1
+where \(h^*(s)\) is the true cost from \(s\) to the goal. The definition used for consistency will be the same as in section 5.1.
 
-\subsection{Proof of Consistency and Admissibility}
-Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic $h_{new}$
+\subsection{Proof of Consistency}
+Adaptive A* updates the heuristic values after each search based on the discovered costs from nodes to the goal. Specifically, after finding a path to the goal, the heuristic \(h_{\text{new}}(s)\) for each node \(s\) that was expanded during the search is updated to reflect the newly discovered costs. The updated heuristic is calculated as follows:
+\[h_{\text{new}}(s) = g(s_{\text{goal}}) - g(s)\]
+
+where \(g(s_{\text{goal}})\) is the cost from the start state to the goal state, determined by the path found in the most recent search, and \(g(s)\) is the cost from the start state to node \(s\), also determined in the most recent search. This calculation ensures that \(h_{\text{new}}(s)\) reflects the exact cost to reach the goal from \(s\) minus the cost already incurred to reach \(s\), making it an admissible heuristic because it does not overestimate the true cost to reach the goal.
+
+To prove that \(h_{\text{new}}(s)\) is consistent, we need to show that for any node \(s\) and its successor \(succ(s)\) with action cost \(c(s, a, succ(s))\), the following condition holds:
+\[h_{\text{new}}(s) \leq c(s, a, succ(s)) + h_{\text{new}}(succ(s))\]
+
+Given the definition of \(h_{\text{new}}(s)\), we substitute the expressions for \(h_{\text{new}}(s)\) and \(h_{\text{new}}(succ(s))\):
+\[g(s_{\text{goal}}) - g(s) \leq c(s, a, succ(s)) + \left(g(s_{\text{goal}}) - g(succ(s))\right)\]
+
+Since \(g(succ(s)) = g(s) + c(s, a, succ(s))\), we substitute \(g(succ(s))\) into the inequality:
+\[g(s_{\text{goal}}) - g(s) \leq c(s, a, succ(s)) + g(s_{\text{goal}}) - \left(g(s) + c(s, a, succ(s))\right)\]
+
+Simplifying both sides of the inequality, we find that both sides are equivalent, proving the consistency of \(h_{\text{new}}(s)\).
+
+Therefore, the update mechanism of Adaptive A* ensures that the heuristic values remain both admissible and consistent, even as action costs increase. This guarantees that Adaptive A* will continue to find the optimal path to the goal while potentially reducing the number of nodes expanded in subsequent searches, as the heuristic values become more informed.
 
 
 
+\section{Question 5 - Analysis of Repeated Forward A* and Adaptive A* Performance}
+In our experimental comparison between Repeated Forward A* and Adaptive A*, both algorithms were configured to break ties among cells with the same \(f\)-value in favor of cells with larger \(g\)-values. Any remaining ties broken randomly. The algorithms were evaluated based on the average number of nodes explored and the average runtime across 50 runs. Here are the observed results:
+
+\subsection{Observed Results}
+
+\begin{itemize}
+    \item \textbf{Repeated Forward A*}:
+    \begin{itemize}
+        \item Average nodes explored: 321,618.78
+        \item Average time: 9.9985 seconds
+    \end{itemize}
+    \item \textbf{Adaptive A*}:
+    \begin{itemize}
+        \item Average nodes explored: 310,153.78
+        \item Average time: 10.0492 seconds
+    \end{itemize}
+\end{itemize}
+
+\subsection{Analysis of Observations}
+
+The results indicate that, on average, Adaptive A* explores fewer nodes than Repeated Forward A* across 50 runs. This could suggest that Adaptive A* is slightly more efficient in navigating the search space, potentially due to its mechanism of updating heuristic values based on previous searches, which may allow it to make more informed decisions in later runs.
+
+However, despite exploring fewer nodes, Adaptive A* exhibits a marginally higher average runtime than Repeated Forward A*. This counterintuitive observation can be attributed to several factors. Adaptive A* updates the heuristic values of nodes based on the results of each search. This process, while beneficial for reducing the number of explored nodes, introduces computational overhead that is not present in Repeated Forward A*. Also, although both algorithms use the same tie-breaking strategy, the dynamics of how ties are encountered and resolved can differ due to the adaptive nature of the heuristic in Adaptive A*. This could influence the runtime in subtle ways.
+
+\subsection{Conclusion}
+
+The observation that Adaptive A* explores fewer nodes but takes slightly longer to run than Repeated Forward A* underscores the complexity of algorithm performance analysis. It highlights that node exploration efficiency does not always directly correlate with runtime efficiency. The computational overhead being introduced after every run in Adaptive A* is definitely the main factor in slowing down the overall performance of the search algorithm.
 
 
-\section{Question 5 - Adaptive A*}
-Runtime: 9.524 seconds
-Nodes Explored: 353434.02
+\section{Question 6 - Statistical Hypothesis Testing for Runtime Differences}
 
-\section{Question 6: Statistical Analysis}
-
-Given the experimental task of implementing and comparing Repeated Forward A* and Adaptive A* with respect to their runtime, as detailed in Question 5, we observe varying performance metrics. To rigorously determine whether these performance differences are systematic or attributable to sampling noise, we employ statistical hypothesis testing.
-
-\subsection{Objective}
-The objective is to statistically analyze runtime differences between Repeated Forward A* and Adaptive A*, both of which break ties among cells with the same \(f\)-value in favor of cells with larger \(g\)-values.
+Following the experimental comparison in Question 5 between Repeated Forward A* and Adaptive A* regarding their runtimes, we observed that Adaptive A* had a slightly higher average runtime over 50 runs, despite exploring fewer nodes on average. To determine whether this observed difference in runtime is statistically significant or merely a result of sampling variability, we propose conducting a statistical hypothesis test.
 
 \subsection{Formulating Hypotheses}
+
 \begin{itemize}
-    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in the runtime of Repeated Forward A* and Adaptive A*. Any observed differences are due to random variation in test cases.
-    \item \textbf{Alternative Hypothesis} (\(H_1\)): There is a significant difference in the runtime of Repeated Forward A* and Adaptive A*, indicating a systematic performance difference.
+    \item \textbf{Null Hypothesis} (\(H_0\)): There is no significant difference in the runtime between Repeated Forward A* and Adaptive A*. Any observed differences are attributable to sampling noise.
+    \item \textbf{Alternative Hypothesis} (\(H_A\)): There is a significant difference in the runtime between Repeated Forward A* and Adaptive A*, indicating a systematic difference in performance.
 \end{itemize}
 
-\subsection{Choosing a Statistical Test}
-To compare the average runtimes, we use an independent two-sample t-test, suitable for assessing the means from two independent samples collected from the implementations of both algorithms across a variety of test cases.
+\subsection{Set \(\alpha\)}
+We set the level of significance, \(\alpha\), to 0.05. This value represents the threshold for rejecting the null hypothesis, indicating a 5\% risk of concluding a difference when there is none.
 
-\subsection{Determining Significance Level}
-We select a significance level of \(\alpha = 0.05\), allowing for a 5\% probability of type I error, where we might incorrectly reject the null hypothesis.
-
-\subsection{Data Collection}
-Run both algorithms across a sufficiently large and diverse set of test cases to ensure representativeness. Record the runtime for each algorithm on each test case.
-
-\subsection{Conducting the Test}
-\begin{enumerate}
-    \item Calculate the mean and standard deviation of runtimes for each algorithm.
-    \item Perform the t-test to compare these means, obtaining the test statistic and the p-value.
-\end{enumerate}
-
-\subsection{Interpreting Results}
+\subsection{Collect Data}
+Data consists of the average runtimes of both algorithms over 50 runs:
 \begin{itemize}
-    \item If \(p \leq \alpha\), we reject \(H_0\) and accept \(H_1\), concluding that the difference in runtime is statistically significant and likely systematic.
-    \item If \(p > \alpha\), we fail to reject \(H_0\), suggesting that any observed differences in runtime might be due to sampling noise rather than a systematic difference.
+    \item Repeated Forward A*: Average runtime over 50 runs.
+    \item Adaptive A*: Average runtime over 50 runs.
 \end{itemize}
 
-\textbf{Conclusion}: This statistical approach provides a rigorous framework to analyze the runtime performance of Repeated Forward A* and Adaptive A*. By objectively assessing whether differences are systematic, we can derive more reliable conclusions about the algorithms' efficiencies and the impact of their tie-breaking strategies on runtime.
+\subsection{Calculate a Test Statistic}
+Perform an independent two-sample t-test to calculate the test statistic. This involves comparing the mean runtimes of the two algorithms to assess if the observed difference is statistically significant given the variance and sample size.
 
+\subsection{Construct Acceptance / Rejection Regions}
+The rejection region is defined by the critical value associated with the chosen \(\alpha\). If the calculated test statistic falls into the rejection region (typically, if the p-value \(\leq \alpha\)), we reject \(H_0\).
 
-\section{Conclusion}
-Conclude your document here.
+\subsection{Conclusion about \(H_0\)}
+\begin{itemize}
+    \item If the p-value \(\leq 0.05\), reject \(H_0\) in favor of \(H_A\), concluding there is a statistically significant difference in runtime.
+    \item If the p-value \(> 0.05\), fail to reject \(H_0\), indicating that any observed differences could be attributed to chance.
+\end{itemize}
+
+This structured approach to hypothesis testing allows us to quantitatively assess whether the differences in runtime between Repeated Forward A* and Adaptive A* are statistically significant or if they could merely be the result of sampling variability.
+
+\section {Conclusion and Clarifications}
+
 
 \end{document}

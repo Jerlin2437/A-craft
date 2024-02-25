@@ -1,9 +1,13 @@
+package src;
+
+import src.MazeBox;
+
 import java.util.*;
 
 public class ForwardAStar {
 
-    //State will likely just be a MazeBox datatype that also holds stuff like search(state) variable and heuristic data
-    //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
+    //State will likely just be a src.MazeBox datatype that also holds stuff like search(state) variable and heuristic data
+    //We can also just change src.MazeGenerator to generate a bunch of states and not mazeboxes
 
     private MazeBox[][] grid;
     // seenGrid array -> set obstacleSet
@@ -61,7 +65,6 @@ public class ForwardAStar {
                          //if(neighbor.g > current.g + 1 && !closedSet.contains(neighbor) && !obstacleSet.contains(neighbor))
                             nodesExplored++;
                             neighbor.g = current.g + 1;
-                            //treemap could fail
                             treeMap.put(neighbor, current);
                             // so binaryheap doesnt have to implement contains
                             // if (openSet.contains(neighbor)){
@@ -143,7 +146,6 @@ public class ForwardAStar {
         }
     }
 
-    //chatgpted- may have issues
     public MazeBox moveAlongPath(List<MazeBox> path, MazeBox goal) {
         for (int i = 0; i < path.size() - 1; i++) { // Stop one step before the end to check for obstacles
 
@@ -156,7 +158,7 @@ public class ForwardAStar {
                 return current;
             }
 
-            // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
+            // Move to next; In your actual implementation, this could involve updating the src.MazeBox state or UI
             System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
             if (current.equals(goal))
                 return current;
@@ -164,7 +166,6 @@ public class ForwardAStar {
         return goal;
     }
 
-    //chatgpted- may have issues
     public List<MazeBox> reconstructPath() {
         List<MazeBox> path = new ArrayList<>();
         MazeBox current = goal;

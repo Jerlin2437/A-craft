@@ -1,4 +1,4 @@
-/*
+package src;/*
  * The MIT License
  *
  * Copyright 2015 Chris Samarinas
@@ -164,10 +164,10 @@ public final class MazeGenerator{
     }
 
     /**
-     * Visits MazeBox in x, y position
-     * @param x MazeBox x coordinate
-     * @param y MazeBox y coordinate
-     * @return true if MazeBox is visited
+     * Visits src.MazeBox in x, y position
+     * @param x src.MazeBox x coordinate
+     * @param y src.MazeBox y coordinate
+     * @return true if src.MazeBox is visited
      */
     private boolean visit(int x, int y){
         if(visited(x, y)){
@@ -190,10 +190,10 @@ public final class MazeGenerator{
     }
 
     /**
-     * Checks if MazeBox has been visited in x, y position
-     * @param x MazeBox x coordinate
-     * @param y MazeBox y coordinate
-     * @return true if MazeBox has been visited in x, y position
+     * Checks if src.MazeBox has been visited in x, y position
+     * @param x src.MazeBox x coordinate
+     * @param y src.MazeBox y coordinate
+     * @return true if src.MazeBox has been visited in x, y position
      */
     private boolean visited(int x, int y){
         return x>=0 && x<width && y>=0 && y<height && maze[y][x].isVisited;
@@ -201,9 +201,9 @@ public final class MazeGenerator{
 
     /**
      * Checks if box can be visited in x, y position
-     * @param x MazeBox x coordinate
-     * @param y MazeBox y coordinate
-     * @return true if MazeBox can be visited in x, y position
+     * @param x src.MazeBox x coordinate
+     * @param y src.MazeBox y coordinate
+     * @return true if src.MazeBox can be visited in x, y position
      */
     private boolean canVisit(int x, int y){
         if(classic) return x>=0 && x<width && y>=0 && y<height && !maze[y][x].isVisited;
@@ -218,9 +218,9 @@ public final class MazeGenerator{
     }
 
     /**
-     * Add MazeBox in x, y position to front set
-     * @param x MazeBox x coordinate
-     * @param y MazeBox y coordinate
+     * Add src.MazeBox in x, y position to front set
+     * @param x src.MazeBox x coordinate
+     * @param y src.MazeBox y coordinate
      */
     private int addFront(int x, int y){
         if(canVisit(x, y)){

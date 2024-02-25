@@ -1,23 +1,24 @@
 /*
+//This implementation uses java.util.priorityqueue
 import java.util.*;
 
-public class ForwardAStar {
+public class src.ForwardAStar {
 
-    //State will likely just be a MazeBox datatype that also holds stuff like search(state) variable and heuristic data
-    //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
+    //State will likely just be a src.MazeBox datatype that also holds stuff like search(state) variable and heuristic data
+    //We can also just change src.MazeGenerator to generate a bunch of states and not mazeboxes
 
-    private MazeBox[][] grid;
+    private src.MazeBox[][] grid;
     // seenGrid array -> set obstacleSet
-    private HashSet<MazeBox> obstacleSet;
-    private HashSet<MazeBox> closedSet;
-    private PriorityQueue<MazeBox> openSet;
-    private HashMap<MazeBox, MazeBox> treeMap;
+    private HashSet<src.MazeBox> obstacleSet;
+    private HashSet<src.MazeBox> closedSet;
+    private PriorityQueue<src.MazeBox> openSet;
+    private HashMap<src.MazeBox, src.MazeBox> treeMap;
     public double nodesExplored = 0;
     private int width, height;
-    private MazeBox start, goal;
+    private src.MazeBox start, goal;
 
     static int counter = 0;  // Counter to track A* searches
-    public ForwardAStar(MazeBox[][] grid, MazeBox start, MazeBox goal) {
+    public src.ForwardAStar(src.MazeBox[][] grid, src.MazeBox start, src.MazeBox goal) {
         this.grid = grid;
         this.obstacleSet = new HashSet<>();
         this.start = start;
@@ -37,7 +38,7 @@ public class ForwardAStar {
 
         while (!openSet.isEmpty() && !pathExists) {
 
-            MazeBox current = openSet.peek(); // Look at the node in OPEN with the smallest f-value without removing it
+            src.MazeBox current = openSet.peek(); // Look at the node in OPEN with the smallest f-value without removing it
 
             //goal.g is infinity until we've found a path
             if (goal.g > current.f) { // f(s) is always an undershoot because heuristic is consistent
@@ -52,7 +53,7 @@ public class ForwardAStar {
 
                     //Doesnt go off the grid
                     if (newX >= 0 && newX < width && newY >= 0 && newY < height ) {
-                        MazeBox neighbor = grid[newY][newX];
+                        src.MazeBox neighbor = grid[newY][newX];
                         if (neighbor.search < counter && !obstacleSet.contains(neighbor)) {
                             // if (neighbor.search < counter && !closedSet.contains(neighbor) && !obstacleSet.contains(neighbor))
                             neighbor.g = Integer.MAX_VALUE;
@@ -83,7 +84,7 @@ public class ForwardAStar {
 
 
 
-    private double calculateHeuristic(MazeBox a, MazeBox b) {
+    private double calculateHeuristic(src.MazeBox a, src.MazeBox b) {
         // Use Manhattan distance as heuristic
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
@@ -111,7 +112,7 @@ public class ForwardAStar {
             }
             printMaze();
 
-            List<MazeBox> path = reconstructPath();
+            List<src.MazeBox> path = reconstructPath();
             if (path.isEmpty()) {
                 System.out.println("We cannot reach the target.");
                 return (System.nanoTime() - startTime); // Return the duration in nanoseconds
@@ -128,14 +129,14 @@ public class ForwardAStar {
     }
 
 
-    private void checkObstacles(MazeBox start) {
+    private void checkObstacles(src.MazeBox start) {
        // System.out.println("Checking Obstacles!");
         int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         for (int[] direction : directions) {
             int newX = start.x + direction[0];
             int newY = start.y + direction[1];
             if (newX >= 0 && newX < width && newY >= 0 && newY < height ){
-                MazeBox neighbor = grid[newY][newX];
+                src.MazeBox neighbor = grid[newY][newX];
                 if(neighbor.isObstacle){
                     obstacleSet.add(neighbor);
                 }
@@ -144,19 +145,19 @@ public class ForwardAStar {
     }
 
     //chatgpted- may have issues
-    public MazeBox moveAlongPath(List<MazeBox> path, MazeBox goal) {
+    public src.MazeBox moveAlongPath(List<src.MazeBox> path, src.MazeBox goal) {
         for (int i = 0; i < path.size() - 1; i++) { // Stop one step before the end to check for obstacles
 
-            MazeBox current = path.get(i);
+            src.MazeBox current = path.get(i);
             checkObstacles(current);
-            MazeBox next = path.get(i + 1);
+            src.MazeBox next = path.get(i + 1);
 
             if (obstacleSet.contains(next)) {
                 System.out.println("Stopped before hitting an obstacle at: (" + next.x + ", " + next.y + ")");
                 return current;
             }
 
-            // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
+            // Move to next; In your actual implementation, this could involve updating the src.MazeBox state or UI
             System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
             if (current.equals(goal))
                 return current;
@@ -165,9 +166,9 @@ public class ForwardAStar {
     }
 
     //chatgpted- may have issues
-    public List<MazeBox> reconstructPath() {
-        List<MazeBox> path = new ArrayList<>();
-        MazeBox current = goal;
+    public List<src.MazeBox> reconstructPath() {
+        List<src.MazeBox> path = new ArrayList<>();
+        src.MazeBox current = goal;
         while (current != null && !current.equals(start)) {
             path.add(0, current); // Add to the beginning of the list
             current = treeMap.get(current);
@@ -179,8 +180,8 @@ public class ForwardAStar {
 
     public void printMaze() {
         // First, reconstruct the path from the goal to the start
-        HashSet<MazeBox> pathSet = new HashSet<>();
-        MazeBox current = goal;
+        HashSet<src.MazeBox> pathSet = new HashSet<>();
+        src.MazeBox current = goal;
         while (current != null) {
             pathSet.add(current);
             current = treeMap.get(current);
@@ -189,7 +190,7 @@ public class ForwardAStar {
         // Print the maze
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                MazeBox box = grid[y][x];
+                src.MazeBox box = grid[y][x];
                 if (box.equals(start)) {
                     System.out.print("1 "); // Start
                 } else if (box.equals(goal)) {

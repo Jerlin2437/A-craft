@@ -1,9 +1,14 @@
+package src;
+
+import src.BinaryHeap;
+import src.MazeBox;
+
 import java.util.*;
 
 public class BackwardAStar {
 
-    //State will likely just be a MazeBox datatype that also holds stuff like search(state) variable and heuristic data
-    //We can also just change MazeGenerator to generate a bunch of states and not mazeboxes
+    //State will likely just be a src.MazeBox datatype that also holds stuff like search(state) variable and heuristic data
+    //We can also just change src.MazeGenerator to generate a bunch of states and not mazeboxes
 
     private MazeBox[][] grid;
     // seenGrid array -> set obstacleSet
@@ -150,7 +155,6 @@ public class BackwardAStar {
         }
     }
 
-    //chatgpted- may have issues
     public MazeBox moveAlongPath(List<MazeBox> path, MazeBox goal) {
         for (int i = path.size() - 1; i > 0; i--) { // Stop one step before the end to check for obstacles
 
@@ -163,7 +167,7 @@ public class BackwardAStar {
                 return current;
             }
 
-            // Move to next; In your actual implementation, this could involve updating the MazeBox state or UI
+            // Move to next; In your actual implementation, this could involve updating the src.MazeBox state or UI
             System.out.println("Moved to: (" + current.x + ", " + current.y + ")");
             if (current.equals(goal))
                 return current;
@@ -171,7 +175,6 @@ public class BackwardAStar {
         return goal;
     }
 
-    //chatgpted- may have issues
     public List<MazeBox> reconstructPath() {
         List<MazeBox> path = new ArrayList<>();
         MazeBox current = start;

@@ -1,3 +1,5 @@
+package src;
+
 public class MazeBox implements Comparable<MazeBox> {
     public boolean isObstacle;
     public boolean hasHValue; //for adaptive a star

@@ -1,5 +1,5 @@
+package src;
 
-import java.util.ArrayList;
 
 /**
  *
@@ -12,9 +12,10 @@ public class Main {
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        int w = 101;
-        int h = 101;
-        int numOfRuns = 50;
+        //100 w = 101 width because of indexing
+        int w = 100;
+        int h = 100;
+        int numOfRuns = 1;
         double totalTime = 0; // Accumulate total time here
 
         double totalNodesExplored = 0;
@@ -36,11 +37,11 @@ public class Main {
             double nodesExplored = 0;
 
             //runs backwards a Star
-//            BackwardAStar backwardAStar = new BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+//            BackwardAStar backwardAStar = new src.BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
 //            double time = backwardAStar.run();
             // nodesExplored = backwardAStar.nodesExplored;
 //Runs forward A star
-       //     ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+       //     ForwardAStar forwardAStar = new src.ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
       //      double time = forwardAStar.run(); // Make sure run returns long indicating the time
       //      totalTime += time; // Add the time of this run to the total time
       //      nodesExplored = forwardAStar.nodesExplored;
