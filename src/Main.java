@@ -1,6 +1,8 @@
 package src;
 
 
+import java.util.Scanner;
+
 /**
  *
  * @author Chris Samarinas
@@ -13,12 +15,17 @@ public class Main {
      */
     public static void main(String[] args) throws InterruptedException {
         //100 w = 101 width because of indexing
-        int w = 100;
-        int h = 100;
+        int w = 10;
+        int h = 10;
         int numOfRuns = 1;
         double totalTime = 0; // Accumulate total time here
 
         double totalNodesExplored = 0;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Type 1 for Forward A star, 2 for Backward A Star, 3 for Adaptive A Star: ");
+        int choice = scanner.nextInt(); // Read the choice from command line
+
         for (int run = 0; run < numOfRuns; run++) {
             MazeGenerator generator = new MazeGenerator(w, h, false);
             int[][] maze = generator.generate(0);
@@ -35,22 +42,32 @@ public class Main {
         }
         System.out.println("----------------------------------");
             double nodesExplored = 0;
+            double time = 0;
 
-            //runs backwards a Star
-//            BackwardAStar backwardAStar = new src.BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-//            double time = backwardAStar.run();
-            // nodesExplored = backwardAStar.nodesExplored;
-//Runs forward A star
-       //     ForwardAStar forwardAStar = new src.ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-      //      double time = forwardAStar.run(); // Make sure run returns long indicating the time
-      //      totalTime += time; // Add the time of this run to the total time
-      //      nodesExplored = forwardAStar.nodesExplored;
-
-            AdaptiveAStar adaptiveAStar = new AdaptiveAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
-            double time = adaptiveAStar.run();
+            switch (choice) {
+                case 1:
+                    // Runs forward A star
+                    ForwardAStar forwardAStar = new ForwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+                    time = forwardAStar.run();
+                    nodesExplored = forwardAStar.nodesExplored;
+                    break;
+                case 2:
+                    // Runs backward A Star
+                    BackwardAStar backwardAStar = new BackwardAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+                    time = backwardAStar.run();
+                    nodesExplored = backwardAStar.nodesExplored;
+                    break;
+                case 3:
+                    // Runs adaptive A star
+                    AdaptiveAStar adaptiveAStar = new AdaptiveAStar(generator.getMazeBoxes(), generator.getStartPosition(), generator.getEndPosition());
+                    time = adaptiveAStar.run();
+                    nodesExplored = adaptiveAStar.nodesExplored;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter 1, 2, or 3.");
+                    System.exit(1);
+            }
             totalTime += time;
-            nodesExplored = adaptiveAStar.nodesExplored;
-
             totalNodesExplored += nodesExplored;
             // Optional: Print time for each run
             System.out.println("Run " + (run + 1) + " took: " + (time) + " seconds.");
